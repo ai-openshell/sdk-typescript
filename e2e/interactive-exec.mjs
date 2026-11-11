@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-// Run through mise run e2e:sdk:ts:exec, which supplies an isolated gateway.
+// Needs a gateway; the E2E workflow that runs it against a published gateway is not set up yet.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

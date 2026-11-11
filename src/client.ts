@@ -1198,7 +1198,7 @@ export class SandboxClient {
   /**
    * Advanced escape hatch: a generated client for every gateway RPC, including
    * surface the curated methods do not wrap yet. Request/response types are the
-   * generated wire messages (import them from '@nvidia/openshell-sdk/raw').
+   * generated wire messages (import them from '@ai-openshell/sdk/raw').
    */
   readonly raw: Client<typeof OpenShell>;
   /** The shared Connect transport, for building extra clients over the same connection. */
@@ -2147,7 +2147,7 @@ export class OpenShellClient {
    * Advanced escape hatch: a generated client for every gateway RPC, including
    * surface the curated sub-clients do not wrap yet (gateway config, provider
    * CRUD, policy status, watch, logs, and the full observed Sandbox). See
-   * '@nvidia/openshell-sdk/raw' for the generated request/response types.
+   * '@ai-openshell/sdk/raw' for the generated request/response types.
    */
   readonly raw: Client<typeof OpenShell>;
   /** The shared Connect transport, for building extra clients over the same connection. */
