@@ -1,5 +1,8 @@
 node_modules/
-src/gen/
 dist/
 *.tsbuildinfo
 .npmrc
+coverage/
+
+# Core protos fetched at the pinned ref by `mise run proto:fetch`.
+/proto/
