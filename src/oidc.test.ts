@@ -7,7 +7,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { clientCredentials } from './oidc.js';
 
 const conformance = JSON.parse(
-  readFileSync(new URL('../../conformance/oauth-client-credentials.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('../test/fixtures/oauth-client-credentials.json', import.meta.url), 'utf8'),
 ) as {
   request: Record<string, string | string[]>;
   urls: { allowed: string[]; rejected: string[] };
