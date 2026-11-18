@@ -28,7 +28,7 @@ zizmor = "1.32.0"
 
 [env]
 # The single core pin: a release tag.
-OPENSHELL_CORE_REF = "v0.1.8"
+OPENSHELL_CORE_REF = "v0.1.9"
 
 # --- Contract tasks ---------------------------------------------------------
 
