@@ -4,7 +4,7 @@ TypeScript client for the OpenShell gateway — thin, idiomatic bindings generat
 
 Distributed via GitHub Packages. A public npm release under the same name follows once the npm org is in place; the install specifier and API are unchanged across that move.
 
-This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) as `@nvidia/openshell-sdk` up to OpenShell `v0.1.8`. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and change the `.npmrc` scope below. The entry points (`.` and `./raw`) and the API are unchanged.
+This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) as `@nvidia/openshell-sdk` before SDK development moved to this repository. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and change the `.npmrc` scope below. The entry points (`.` and `./raw`) and the API are unchanged.
 
 Use the SDK and gateway from the same OpenShell release when possible. The raw
 types and RPC descriptors are generated from the protobuf definitions in that
