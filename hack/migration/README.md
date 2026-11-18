@@ -31,3 +31,7 @@ Fixes over the Python copies: `extract-history.sh` sets `main` with
 `git update-ref`, because `git branch --force` refuses the branch a
 no-checkout clone already has as `HEAD`, and it tolerates a core clone whose
 only branch is `main`.
+
+## Current freeze
+
+The import now includes core through `v0.1.9` (`ce58cf8e9b953281352d98a637e41616295b1318`). Filtering produces 39 commits from 20 authors, with tree `07965ecfa951d5ccb9e18454e5f154a002f72322`. The refresh preserves the original import and merges the additional filtered commit without rewriting its history.
