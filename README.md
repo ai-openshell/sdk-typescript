@@ -1,8 +1,10 @@
-# @nvidia/openshell-sdk
+# @ai-openshell/sdk
 
 TypeScript client for the OpenShell gateway — thin, idiomatic bindings generated from the OpenShell protobufs.
 
 Distributed via GitHub Packages. A public npm release under the same name follows once the npm org is in place; the install specifier and API are unchanged across that move.
+
+This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) as `@nvidia/openshell-sdk` before SDK development moved to this repository. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and change the `.npmrc` scope below. The entry points (`.` and `./raw`) and the API are unchanged.
 
 Use the SDK and gateway from the same OpenShell release when possible. The raw
 types and RPC descriptors are generated from the protobuf definitions in that
@@ -11,22 +13,22 @@ compatible.
 
 ## Install
 
-Published to GitHub Packages, so point the `@nvidia` scope at it with a project `.npmrc`:
+Published to GitHub Packages, so point the `@ai-openshell` scope at it with a project `.npmrc`:
 
 ```shell
-@nvidia:registry=https://npm.pkg.github.com
+@ai-openshell:registry=https://npm.pkg.github.com
 ```
 
 Authenticate with a GitHub token that has `read:packages`, then:
 
 ```shell
-npm install @nvidia/openshell-sdk
+npm install @ai-openshell/sdk
 ```
 
 ## Usage
 
 ```ts
-import { OpenShellClient } from '@nvidia/openshell-sdk'
+import { OpenShellClient } from '@ai-openshell/sdk'
 
 const client = await OpenShellClient.connect({
   gateway: 'https://gateway.example.com',
@@ -72,7 +74,7 @@ the client's lifetime. For long-running service automation, use the renewable
 client-credentials provider:
 
 ```ts
-import { clientCredentials, OpenShellClient } from '@nvidia/openshell-sdk'
+import { clientCredentials, OpenShellClient } from '@ai-openshell/sdk'
 
 const client = await OpenShellClient.connect({
   gateway,
@@ -111,7 +113,7 @@ await client.sandbox.create({
 directly — same API, one less hop:
 
 ```ts
-import { SandboxClient } from '@nvidia/openshell-sdk'
+import { SandboxClient } from '@ai-openshell/sdk'
 
 const sandbox = await SandboxClient.connect({ gateway, oidcToken })
 await sandbox.create({ image })
@@ -125,7 +127,7 @@ Enable operator authentication at the gateway and omit OIDC and edge tokens.
 No sandbox or provider attachment is required.
 
 ```ts
-import { ProviderClient } from '@nvidia/openshell-sdk'
+import { ProviderClient } from '@ai-openshell/sdk'
 
 const providers = await ProviderClient.connect({ gateway, caCert, clientCert, clientKey })
 const credentials = await providers.getCredentials(
@@ -224,7 +226,7 @@ own image, environment, resource, and driver-specific settings; sandbox creation
 from a template can still attach labels, providers, and create-time policy.
 
 ```ts
-import { OpenShellClient, type SandboxWorkloadTemplate } from '@nvidia/openshell-sdk'
+import { OpenShellClient, type SandboxWorkloadTemplate } from '@ai-openshell/sdk'
 
 const client = await OpenShellClient.connect({ gateway, oidcToken })
 
@@ -285,13 +287,13 @@ Curated methods are added deliberately, so some gateway RPCs are not yet wrapped
 
 ### Advanced: raw escape hatch
 
-`client.raw` is a generated client for every gateway RPC, including surface the curated sub-clients do not wrap yet (gateway config, provider CRUD, policy status, watch, logs, and the full observed `Sandbox`). `client.transport` is the shared connection, so extra clients reuse one socket. Generated request and response types live at `@nvidia/openshell-sdk/raw`.
+`client.raw` is a generated client for every gateway RPC, including surface the curated sub-clients do not wrap yet (gateway config, provider CRUD, policy status, watch, logs, and the full observed `Sandbox`). `client.transport` is the shared connection, so extra clients reuse one socket. Generated request and response types live at `@ai-openshell/sdk/raw`.
 
 ```ts
 import { create } from '@bufbuild/protobuf'
-import { OpenShellClient } from '@nvidia/openshell-sdk'
-import { WorkspaceSelectorSchema } from '@nvidia/openshell-sdk/raw'
-import type { GetGatewayConfigResponse } from '@nvidia/openshell-sdk/raw'
+import { OpenShellClient } from '@ai-openshell/sdk'
+import { WorkspaceSelectorSchema } from '@ai-openshell/sdk/raw'
+import type { GetGatewayConfigResponse } from '@ai-openshell/sdk/raw'
 
 const client = await OpenShellClient.connect({ gateway, oidcToken })
 
@@ -321,7 +323,7 @@ installs no application routes.
 Complete object literals typed as either generated message must add
 `serviceRoutes: []`. Alternatively, use `create(SandboxConfigSnapshotSchema, init)`
 or `create(GetSandboxConfigResponseSchema, init)` from `@bufbuild/protobuf`, with
-the corresponding schema imported from `@nvidia/openshell-sdk/raw`. Schema-based
+the corresponding schema imported from `@ai-openshell/sdk/raw`. Schema-based
 initialization supplies the empty array when omitted. The curated SDK API is
 unchanged.
 
@@ -335,16 +337,21 @@ The SDK ships primitives, not the CLI's terminal experience. Some things are int
 
 ## Development
 
-The version field is a `0.0.0` placeholder; CI stamps the real version from the git release tag at publish time, matching the Rust and Python packages.
+The version field is a `0.0.0` placeholder; the release workflow stamps the real version at publish time.
+
+The bindings in `src/gen/` are generated from the protos of the OpenShell core release pinned in `mise.toml` (`OPENSHELL_CORE_REF`) and committed, so building and testing need no core checkout. `mise run proto:check` fails when they are stale.
 
 ```shell
-mise run sdk:ts:proto       # generate stubs from proto/ with buf
-mise run sdk:ts:format      # Biome: format + safe fixes (writes)
-mise run sdk:ts:lint        # Biome: lint + format check (read-only)
-mise run sdk:ts:typecheck   # tsc --noEmit
-mise run sdk:ts:test        # Vitest unit tests with an 80% line-coverage gate
-mise run sdk:ts:build       # emit dist/
-mise run e2e:sdk:ts:exec    # public interactive helper against an isolated Docker gateway
+mise run ci             # everything CI runs: check, test, build
+mise run proto:gen      # fetch core's protos at the pin and regenerate src/gen/
+mise run format         # Biome: format + safe fixes (writes)
+mise run check          # format check, lint, typecheck, proto:check, vendored:check
+mise run test           # Vitest unit tests with an 80% line-coverage gate
+mise run build          # emit dist/ and verify the package contents
 ```
 
-Formatting and linting are handled by [Biome](https://biomejs.dev) (`biome.json`): 2-space indent, single quotes, semicolons, 120-column width. Generated `src/gen/` is excluded. `sdk:ts:lint` runs in CI as part of `sdk:ts:ci`.
+Formatting and linting are handled by [Biome](https://biomejs.dev) (`biome.json`): 2-space indent, single quotes, semicolons, 120-column width. Generated `src/gen/` and the fixtures vendored from core (`test/fixtures/`, listed in `scripts/vendored-core-files.txt`) are excluded.
+
+CI runs the unit tests on every Node version in `mise.toml`. To run them on one locally, set `MISE_NODE_VERSION`, for example `MISE_NODE_VERSION=20.20.2 mise run test`.
+
+`e2e/interactive-exec.mjs` still expects core's Docker gateway harness; running it here against a published gateway comes with the E2E workflow.

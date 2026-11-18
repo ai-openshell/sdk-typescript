@@ -1,14 +1,16 @@
 {
-  "name": "@nvidia/openshell-sdk",
+  "name": "@ai-openshell/sdk",
   "version": "0.0.0",
   "description": "Official TypeScript SDK for the OpenShell gateway.",
   "license": "Apache-2.0",
   "type": "module",
-  "homepage": "https://github.com/NVIDIA/OpenShell",
+  "homepage": "https://github.com/ai-openshell/sdk-typescript",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NVIDIA/OpenShell.git",
-    "directory": "sdk/typescript"
+    "url": "git+https://github.com/ai-openshell/sdk-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ai-openshell/sdk-typescript/issues"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -39,7 +41,7 @@
     "format": "biome check --write .",
     "lint": "biome ci .",
     "test": "vitest run --coverage",
-    "prepublishOnly": "npm run gen && npm run build"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.3",

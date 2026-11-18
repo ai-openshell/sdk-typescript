@@ -1,22 +1,22 @@
 # SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-# Code generation for the TypeScript SDK. The proto module boundary and
-# validation policy live in the repo-level buf.yaml; this template only drives
-# generation. buf compiles the module with its own compiler (no protoc) and
-# runs the connect-es plugin from this package's devDependencies. Limited to
-# the client-surface closure so we don't emit unused compute/test
+# Code generation for the TypeScript SDK. `mise run proto:fetch` exports core's
+# protos at the pinned ref (OPENSHELL_CORE_REF) into proto/; this template only
+# drives generation. buf compiles the module with its own compiler (no protoc)
+# and runs the protoc-gen-es plugin from this package's devDependencies.
+# Limited to the client-surface closure so we don't emit unused compute/test
 # protos; well-known types resolve through @bufbuild/protobuf/wkt and are not
 # generated.
 version: v2
 clean: true
 inputs:
-  - directory: ../../proto
+  - directory: proto
     paths:
-      - ../../proto/openshell.proto
-      - ../../proto/sandbox.proto
-      - ../../proto/datamodel.proto
-      - ../../proto/options.proto
+      - proto/openshell.proto
+      - proto/sandbox.proto
+      - proto/datamodel.proto
+      - proto/options.proto
   # Standard rich gRPC error messages, pinned to an immutable Google APIs commit.
   - module: buf.build/googleapis/googleapis:c17df5b2beca46928cc87d5656bd5343
     paths:

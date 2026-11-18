@@ -1,0 +1,157 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# TypeScript SDK tasks. Run `mise tasks` to list them and `mise run ci` for the
+# full pipeline. Bindings are generated from core's proto/ at the ref pinned in
+# OPENSHELL_CORE_REF and committed under src/gen, so building the package needs
+# no core checkout and no network beyond `npm ci`.
+#
+# The tasks marked "contract" are called by name from the repository
+# template's workflows (pimlock/openshell-repo-template). Keep their names;
+# change what they run.
+
+min_version = { soft = "2026.9.9" }
+
+# Tools are locked in mise.lock; CI installs with `mise install --locked`.
+# Run `mise lock` after changing [tools].
+[settings]
+lockfile = true
+lockfile_platforms = ["linux-x64", "linux-arm64", "macos-arm64"]
+
+[tools]
+# The first Node version is the default. The others are the older releases
+# that package.json's engines field supports; CI runs the unit tests on each
+# by setting MISE_NODE_VERSION.
+node = ["24.22.2", "22.23.4", "20.20.2"]
+actionlint = "1.7.12"
+shellcheck = "0.11.0"
+zizmor = "1.32.0"
+
+[env]
+# The single core pin: a release tag.
+OPENSHELL_CORE_REF = "v0.1.9"
+
+# --- Contract tasks ---------------------------------------------------------
+
+[tasks.ci]
+description = "Run the full CI pipeline (contract)"
+depends = ["check", "test", "build"]
+
+[tasks.check]
+description = "Run formatting, lint, type, and drift checks (contract)"
+depends = ["format:check", "lint", "typecheck", "proto:check", "vendored:check"]
+
+[tasks.test]
+description = "Run unit tests with an 80% line-coverage gate (contract)"
+depends = ["install"]
+run = "npm test"
+
+[tasks.build]
+description = "Build dist/ and verify the package contents (contract)"
+depends = ["install"]
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+rm -rf dist
+npm run build
+# The files npm would publish: both entry points and their declarations, and
+# no tests or sources.
+files=$(npm pack --dry-run --json | node -e '
+  let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
+    for (const f of JSON.parse(s)[0].files) console.log(f.path);
+  });')
+for f in dist/index.js dist/index.d.ts dist/raw.js dist/raw.d.ts dist/gen/openshell_pb.js README.md package.json; do
+  grep -qx "$f" <<<"$files" || { echo "ERROR: the package is missing $f" >&2; exit 1; }
+done
+if grep -E '\\.test\\.|^src/' <<<"$files"; then
+  echo "ERROR: the package contains tests or sources" >&2
+  exit 1
+fi
+echo "package: $(wc -l <<<"$files" | tr -d ' ') files"
+"""
+
+[tasks.format]
+description = "Format the code and apply safe fixes (contract)"
+depends = ["install"]
+run = "npm run format"
+
+[tasks."format:check"]
+description = "Check formatting (contract)"
+depends = ["install"]
+run = "npx --no-install biome format ."
+
+[tasks.lint]
+description = "Lint the code and check formatting (contract)"
+depends = ["install"]
+run = "npm run lint"
+
+[tasks."workflows:check"]
+description = "Lint GitHub workflows (actionlint with shellcheck, zizmor) and shell scripts (contract)"
+run = [
+  "actionlint",
+  "zizmor --offline --min-severity medium .github",
+  "shellcheck -x -S warning scripts/*.sh",
+]
+
+# --- Repository tasks -------------------------------------------------------
+
+[tasks."core:version"]
+description = "Print the pinned core ref"
+run = "echo $OPENSHELL_CORE_REF"
+
+[tasks.install]
+description = "Install the npm dependencies from package-lock.json"
+run = "npm ci --no-audit --no-fund"
+sources = ["package.json", "package-lock.json"]
+outputs = ["node_modules/.package-lock.json"]
+
+[tasks.typecheck]
+description = "Type-check the SDK"
+depends = ["install"]
+run = "npm run typecheck"
+
+[tasks."proto:fetch"]
+description = "Export the SDK's protos from core at the pinned ref into proto/"
+depends = ["install"]
+# buf follows the imports of the root files, so proto/ holds exactly the files
+# the SDK compiles. buf comes from the package's devDependencies.
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+rm -rf proto
+npx --no-install buf export "https://github.com/NVIDIA/OpenShell.git#ref=${OPENSHELL_CORE_REF},depth=1,subdir=proto" \
+  --path openshell.proto --path sandbox.proto --path datamodel.proto --path options.proto \
+  --output proto
+"""
+
+[tasks."proto:gen"]
+description = "Generate the protobuf bindings into src/gen"
+depends = ["install", "proto:fetch"]
+run = "npm run gen"
+
+[tasks."proto:check"]
+description = "Fail if the committed bindings differ from the pinned protos"
+depends = ["proto:gen"]
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+if ! git diff --exit-code --stat -- src/gen \
+   || [ -n "$(git ls-files --others --exclude-standard -- src/gen)" ]; then
+  echo "ERROR: src/gen is stale; run 'mise run proto:gen' and commit." >&2
+  exit 1
+fi
+"""
+
+[tasks."vendored:check"]
+description = "Fail if a file copied from core (scripts/vendored-core-files.txt) differs from core at the pinned ref"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+core=$(mktemp -d)
+trap 'rm -rf "$core"' EXIT
+files=$(grep -v '^#' scripts/vendored-core-files.txt)
+# shellcheck disable=SC2046 # one argument per core path
+scripts/fetch-core.sh "$OPENSHELL_CORE_REF" "$core" $(awk '{ print $1 }' <<<"$files")
+while read -r src dst; do
+  diff -u "$core/$src" "$dst"
+done <<<"$files"
+"""
