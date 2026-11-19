@@ -13,7 +13,7 @@ The workflows use a GitHub App token from the `sdk-bot` environment (secrets `SD
 | `core-tags.sh [--all]` | `core:tags` | List NVIDIA/OpenShell release tags newer than the pin: every stable tag, plus the newest pre-release when it is newer than all of them. |
 | `open-bump-pr.sh <tag> [--dry-run]` | `core:bump` | Open the update proposal for one core tag: branch `core/<tag>`, pin change, regenerated bindings in `src/gen`, refreshed copies of core files, proto diff in the body, labels `core-bump` plus `stable` or `prerelease`. Closes older pre-release proposals. |
 | `bump-pr-body.md` | | PR body template for `open-bump-pr.sh`. |
-| `drift-check.sh --out <file>` | `core:drift` | Compare core `main` with the pin: `buf breaking`, regenerate and run the unit tests, list the RPCs the curated SDK doesn't call. Writes the markdown report. |
+| `drift-check.sh --out <file>` | `core:drift` | Compare core `main` with the pin: `buf breaking`, regenerate, then run `check` and the unit tests, list the RPCs the curated SDK doesn't call. Writes the markdown report. |
 | `update-drift-issue.sh <report.md> [--dry-run]` | `core:drift-issue` | Create, update, or close the single `Core main drift` issue from a report. |
 | `report-failure.sh <job> <run-url> [--dry-run]` | `core:report-failure` | Append a dated failure line to the drift issue. Called from `if: failure()` steps. |
 | `drift-issue.sh` | | Shared helpers for the two drift issue scripts (sourced, not run). |

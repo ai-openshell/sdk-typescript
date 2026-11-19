@@ -9,7 +9,8 @@
 #   1. buf breaking: core main against the pinned tag (FILE rules), for the
 #      proto files the SDK generates (what `mise run proto:fetch` exports)
 #   2. regenerate and test: bindings from core main in a temporary
-#      worktree, then the unit tests
+#      worktree, then `mise run check` (type check, lint, proto and
+#      vendored-file checks) and the unit tests
 #   3. uncovered RPCs: methods of the services in the regenerated src/gen
 #      that no curated SDK code under src calls (bindings and tests
 #      excluded; client.raw reaches every RPC); informational, it does not
@@ -77,21 +78,32 @@ else
 $(fence "$breaking")"
 fi
 
-# 2. Regenerate from main and run the unit tests.
+# 2. Regenerate from main, then run the checks and the unit tests. The type
+# check matters: a new enum value can pass buf breaking and the tests but
+# break an exhaustive map.
 git worktree add --quiet --detach "$work/wt" HEAD
+# proto:check compares the bindings with the last commit, so commit the
+# regenerated ones in the throwaway worktree before running check.
+commit_regenerated() {
+  git add -A &&
+    git -c user.name=core-drift -c user.email=core-drift@localhost -c commit.gpgsign=false \
+      commit --quiet --no-verify --allow-empty -m "regenerate from core main"
+}
 if build=$(
   cd "$work/wt" &&
     sed -i.bak "s/^OPENSHELL_CORE_REF = \".*\"$/OPENSHELL_CORE_REF = \"$main_sha\"/" mise.toml &&
     rm -f mise.toml.bak &&
     mise trust --quiet mise.toml &&
     mise run --quiet proto:gen 2>&1 &&
+    commit_regenerated 2>&1 &&
+    mise run --quiet check 2>&1 &&
     mise run --quiet test 2>&1
 ); then
-  changed=$(git -C "$work/wt" diff --stat -- src/gen | tail -1 | sed 's/^ *//')
-  build_section="Bindings from main pass the unit tests (${changed:-no generated files change})."
+  changed=$(git -C "$work/wt" diff --stat HEAD~1 HEAD -- src/gen | tail -1 | sed 's/^ *//')
+  build_section="Bindings from main pass the checks and the unit tests (${changed:-no generated files change})."
 else
   result=fail
-  build_section="Regenerating from main or testing against it fails:
+  build_section="Regenerating from main, checking or testing against it fails:
 
 $(fence "$(tail -n 60 <<<"$build")")"
 fi
