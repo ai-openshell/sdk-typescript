@@ -13,15 +13,15 @@ mise run install
 mise installs Node.js and the tools; npm installs the dependencies from
 `package-lock.json`. `mise tasks` lists every task. The ones you need most:
 
-| Task                    | What it does                                                     |
-| ----------------------- | ---------------------------------------------------------------- |
-| `mise run ci`           | Everything CI runs: checks, unit tests, build                    |
-| `mise run check`        | Format check, lint, type check, proto check, vendored-file check |
-| `mise run format`       | Format the code and apply safe fixes                             |
-| `mise run test`         | Vitest unit tests with an 80% line-coverage gate                 |
-| `mise run build`        | Emit `dist/` and verify the package contents                     |
-| `mise run proto:gen`    | Regenerate the bindings from core at the pinned ref              |
-| `mise run core:version` | Print the pinned core version                                    |
+| Task | What it does |
+|------|--------------|
+| `mise run ci` | Everything CI runs: checks, unit tests, build |
+| `mise run check` | Format check, lint, type check, proto check, vendored-file check |
+| `mise run format` | Format the code and apply safe fixes |
+| `mise run test` | Vitest unit tests with an 80% line-coverage gate |
+| `mise run build` | Emit `dist/` and verify the package contents |
+| `mise run proto:gen` | Regenerate the bindings from core at the pinned ref |
+| `mise run core:version` | Print the pinned core version |
 
 CI runs the unit tests on every Node.js version in `mise.toml` (20, 22 and 24).
 To run them on one locally, set `MISE_NODE_VERSION`, for example
@@ -43,7 +43,7 @@ the pinned core version is not set up yet.
 - Use [Conventional Commits](https://www.conventionalcommits.org/):
   `<type>(<scope>): <description>`.
 - Sign off every commit (`git commit --signoff`) for the [Developer Certificate
-of Origin](https://developercertificate.org/).
+  of Origin](https://developercertificate.org/).
 - Every change goes through a pull request with an approval from a code owner
   who did not push last.
 - New files need only the license line `SPDX-License-Identifier: Apache-2.0`

@@ -27,29 +27,29 @@ npm install @ai-openshell/sdk
 Connect to a gateway, create a sandbox, run a command in it, and delete it:
 
 ```ts
-import { OpenShellClient } from '@ai-openshell/sdk';
+import { OpenShellClient } from '@ai-openshell/sdk'
 
 const client = await OpenShellClient.connect({
   gateway: 'https://gateway.example.com',
   oidcToken: process.env.OPENSHELL_TOKEN,
-});
+})
 
 const sandbox = await client.sandbox.create({
   image: 'registry.example.com/agents/python:latest',
   serviceExposures: [{ targetPort: 8080 }],
-});
-console.log(sandbox.serviceUrls['']);
-await client.sandbox.waitReady(sandbox.name, 120);
+})
+console.log(sandbox.serviceUrls[''])
+await client.sandbox.waitReady(sandbox.name, 120)
 
-const result = await client.sandbox.exec(sandbox.name, ['/bin/sh', '-c', 'echo hello']);
-console.log(result.stdout.toString());
+const result = await client.sandbox.exec(sandbox.name, ['/bin/sh', '-c', 'echo hello'])
+console.log(result.stdout.toString())
 
-const deletion = await client.sandbox.delete(sandbox.name);
-console.log(deletion.outcome); // completed, accepted, or already_absent
+const deletion = await client.sandbox.delete(sandbox.name)
+console.log(deletion.outcome) // completed, accepted, or already_absent
 if (deletion.outcome === 'accepted') {
   await client.sandbox.waitDeleted(sandbox.name, 60, {
     expectedSandboxId: deletion.sandboxId,
-  });
+  })
 }
 ```
 
@@ -79,7 +79,7 @@ the client's lifetime. For long-running service automation, use the renewable
 client-credentials provider:
 
 ```ts
-import { clientCredentials, OpenShellClient } from '@ai-openshell/sdk';
+import { clientCredentials, OpenShellClient } from '@ai-openshell/sdk'
 
 const client = await OpenShellClient.connect({
   gateway,
@@ -90,7 +90,7 @@ const client = await OpenShellClient.connect({
     scopes: ['sandbox:read', 'sandbox:write'],
     audience: 'openshell-gateway',
   }),
-});
+})
 ```
 
 The provider discovers and validates the issuer, keeps credentials and tokens
@@ -111,7 +111,7 @@ await client.sandbox.create({
   image,
   policy: { version: 1, networkPolicies: {} },
   rawSpec: { logLevel: 'debug', template: { runtimeClassName: 'gvisor' } },
-});
+})
 ```
 
 ### Use scoped clients
@@ -120,10 +120,10 @@ await client.sandbox.create({
 directly — same API, one less hop:
 
 ```ts
-import { SandboxClient } from '@ai-openshell/sdk';
+import { SandboxClient } from '@ai-openshell/sdk'
 
-const sandbox = await SandboxClient.connect({ gateway, oidcToken });
-await sandbox.create({ image });
+const sandbox = await SandboxClient.connect({ gateway, oidcToken })
+await sandbox.create({ image })
 ```
 
 ### Retrieve provider credentials
@@ -134,14 +134,15 @@ Enable operator authentication at the gateway and omit OIDC and edge tokens.
 No sandbox or provider attachment is required.
 
 ```ts
-import { ProviderClient } from '@ai-openshell/sdk';
+import { ProviderClient } from '@ai-openshell/sdk'
 
-const providers = await ProviderClient.connect({ gateway, caCert, clientCert, clientKey });
-const credentials = await providers.getCredentials('my-graph', ['MS_GRAPH_ACCESS_TOKEN'], {
-  workspace: 'production',
-  minimumRemainingLifetimeSecs: 300,
-});
-const token = credentials.MS_GRAPH_ACCESS_TOKEN!.value;
+const providers = await ProviderClient.connect({ gateway, caCert, clientCert, clientKey })
+const credentials = await providers.getCredentials(
+  'my-graph',
+  ['MS_GRAPH_ACCESS_TOKEN'],
+  { workspace: 'production', minimumRemainingLifetimeSecs: 300 },
+)
+const token = credentials.MS_GRAPH_ACCESS_TOKEN!.value
 ```
 
 The workspace and a nonempty selection are required. The result maps keys to
@@ -161,8 +162,8 @@ and [provider reference](https://docs.nvidia.com/openshell/latest/how-it-works/p
 
 ```ts
 for await (const event of client.sandbox.execStream(name, ['pytest', '-q'])) {
-  if ('type' in event) console.log(`exit ${event.exitCode}`);
-  else process[event.stream].write(event.data); // 'stdout' | 'stderr'
+  if ('type' in event) console.log(`exit ${event.exitCode}`)
+  else process[event.stream].write(event.data) // 'stdout' | 'stderr'
 }
 ```
 
@@ -182,13 +183,13 @@ Existing mocks and wrappers can keep implementing the original interface without
 adding those members. Use the extended type when a wrapper exposes the new controls.
 
 ```ts
-const session = await client.sandbox.execInteractive(name, ['bash']);
-session.write(Buffer.from('echo hi\n'));
-session.resize(120, 40);
+const session = await client.sandbox.execInteractive(name, ['bash'])
+session.write(Buffer.from('echo hi\n'))
+session.resize(120, 40)
 for await (const event of session.output) {
-  if (!('type' in event)) process.stdout.write(event.data);
+  if (!('type' in event)) process.stdout.write(event.data)
 }
-const code = await session.done;
+const code = await session.done
 ```
 
 ### Forward ports
@@ -199,9 +200,9 @@ const code = await session.done;
 const fwd = await client.sandbox.forward(name, {
   targetPort: 8000,
   onConnectionError: (error) => console.error(error),
-});
+})
 // ... reach the sandbox service at 127.0.0.1:fwd.localPort ...
-await fwd.close();
+await fwd.close()
 ```
 
 `close()` is idempotent. It cancels active forwarding RPCs, destroys accepted
@@ -210,17 +211,17 @@ sockets, and waits for their cleanup.
 ### Manage SSH sessions, providers, config, and policy
 
 ```ts
-const ssh = await client.sandbox.createSshSession(name);
-await client.sandbox.revokeSshSession(ssh.token);
+const ssh = await client.sandbox.createSshSession(name)
+await client.sandbox.revokeSshSession(ssh.token)
 
-await client.sandbox.attachProvider(name, 'claude');
-await client.sandbox.listProviders(name);
-await client.sandbox.detachProvider(name, 'claude');
+await client.sandbox.attachProvider(name, 'claude')
+await client.sandbox.listProviders(name)
+await client.sandbox.detachProvider(name, 'claude')
 
-const config = await client.sandbox.getConfig(name);
-config.policy!.networkPolicies['web'] = { name: 'web', endpoints: [], binaries: [] };
-await client.sandbox.setPolicy(name, config.policy!, { wait: true });
-await client.sandbox.setSetting(name, 'feature.enabled', { value: { case: 'boolValue', value: true } });
+const config = await client.sandbox.getConfig(name)
+config.policy!.networkPolicies['web'] = { name: 'web', endpoints: [], binaries: [] }
+await client.sandbox.setPolicy(name, config.policy!, { wait: true })
+await client.sandbox.setSetting(name, 'feature.enabled', { value: { case: 'boolValue', value: true } })
 ```
 
 Sandbox-scoped `setPolicy` may only change `networkPolicies`; static fields (`filesystem`, `landlock`, `process`) must match the create-time policy. Sandbox-scoped setting deletes are rejected by the gateway, so only upsert (`setSetting`) is exposed here.
@@ -232,9 +233,9 @@ own image, environment, resource, and driver-specific settings; sandbox creation
 from a template can still attach labels, providers, and create-time policy.
 
 ```ts
-import { OpenShellClient, type SandboxWorkloadTemplate } from '@ai-openshell/sdk';
+import { OpenShellClient, type SandboxWorkloadTemplate } from '@ai-openshell/sdk'
 
-const client = await OpenShellClient.connect({ gateway, oidcToken });
+const client = await OpenShellClient.connect({ gateway, oidcToken })
 
 const template: SandboxWorkloadTemplate = await client.sandboxTemplates.create(
   {
@@ -249,18 +250,18 @@ const template: SandboxWorkloadTemplate = await client.sandboxTemplates.create(
     },
   },
   { workspace: 'default' },
-);
+)
 
 const sandbox = await client.sandbox.createFromTemplate({
   workloadTemplate: template.metadata!.name,
   workspace: 'default',
   providers: ['github'],
   policy: { version: 1, networkPolicies: {} },
-});
+})
 
-await client.sandboxTemplates.get('python', { workspace: 'default' });
-await client.sandboxTemplates.listAll({ workspace: 'default', pageSize: 100 });
-await client.sandboxTemplates.delete('python', { workspace: 'default' });
+await client.sandboxTemplates.get('python', { workspace: 'default' })
+await client.sandboxTemplates.listAll({ workspace: 'default', pageSize: 100 })
+await client.sandboxTemplates.delete('python', { workspace: 'default' })
 ```
 
 ### List sandboxes
@@ -274,9 +275,9 @@ when you want to exhaust the collection. `pageSize` controls one request and
 `pageToken` resumes a saved traversal.
 
 ```ts
-const pages = client.sandbox.list({ workspace: 'default', pageSize: 100 });
+const pages = client.sandbox.list({ workspace: 'default', pageSize: 100 })
 for await (const page of pages) {
-  for (const sandbox of page.items) console.log(sandbox.name);
+  for (const sandbox of page.items) console.log(sandbox.name)
 }
 ```
 
@@ -298,24 +299,24 @@ Curated methods are added deliberately, so some gateway RPCs are not yet wrapped
 `client.raw` is a generated client for every gateway RPC, including surface the curated sub-clients do not wrap yet (gateway config, provider CRUD, policy status, watch, logs, and the full observed `Sandbox`). `client.transport` is the shared connection, so extra clients reuse one socket. Generated request and response types live at `@ai-openshell/sdk/raw`.
 
 ```ts
-import { create } from '@bufbuild/protobuf';
-import { OpenShellClient } from '@ai-openshell/sdk';
-import { WorkspaceSelectorSchema } from '@ai-openshell/sdk/raw';
-import type { GetGatewayConfigResponse } from '@ai-openshell/sdk/raw';
+import { create } from '@bufbuild/protobuf'
+import { OpenShellClient } from '@ai-openshell/sdk'
+import { WorkspaceSelectorSchema } from '@ai-openshell/sdk/raw'
+import type { GetGatewayConfigResponse } from '@ai-openshell/sdk/raw'
 
-const client = await OpenShellClient.connect({ gateway, oidcToken });
+const client = await OpenShellClient.connect({ gateway, oidcToken })
 
 // Reach RPCs the curated surface does not wrap yet:
-const cfg: GetGatewayConfigResponse = await client.raw.getGatewayConfig({});
+const cfg: GetGatewayConfigResponse = await client.raw.getGatewayConfig({})
 const defaultWorkspace = create(WorkspaceSelectorSchema, {
   selection: { case: 'workspace', value: 'default' },
-});
+})
 const status = await client.raw.getSandboxPolicyStatus({
   sandbox: 'my-sandbox',
   version: 0,
   global: false,
   workspaceScope: defaultWorkspace,
-});
+})
 ```
 
 The raw layer returns the generated wire messages verbatim, preserving proto distinctions (an omitted optional versus an explicitly empty map) that the curated types may smooth over. As curated sub-clients land, prefer them; `raw` stays as the always-available floor.

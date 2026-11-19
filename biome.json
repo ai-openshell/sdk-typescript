@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!src/gen", "!dist", "!coverage", "!test/fixtures", "!scripts/core-sync/bump-pr-body.md"]
+    "includes": ["**", "!src/gen", "!dist", "!coverage", "!test/fixtures", "!**/*.md"]
   },
   "formatter": {
     "enabled": true,
