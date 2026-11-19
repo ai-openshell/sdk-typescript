@@ -8,6 +8,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue)](https://github.com/ai-openshell/sdk-typescript/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/@ai-openshell/sdk?logo=npm)](https://www.npmjs.com/package/@ai-openshell/sdk)
+[![Security policy](https://img.shields.io/badge/Security-Report%20a%20Vulnerability-red)](https://github.com/ai-openshell/sdk-typescript/blob/main/SECURITY.md)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](https://docs.nvidia.com/openshell/latest/sdk/typescript)
 
 Use the TypeScript SDK to manage [OpenShell](https://github.com/NVIDIA/OpenShell) sandboxes from Node.js applications and automation. Create sandboxes, run and stream commands, forward ports, and manage templates, policy, and provider credentials through the gateway.
@@ -358,24 +359,9 @@ The generated bindings currently target core `v0.1.9`, pinned by `OPENSHELL_CORE
 
 ## Contributing
 
-The project uses [mise](https://mise.jdx.dev/) for tools and npm for dependencies. The version field in `package.json` is a `0.0.0` placeholder; the release workflow stamps the real version at publish time.
+See [CONTRIBUTING.md](https://github.com/ai-openshell/sdk-typescript/blob/main/CONTRIBUTING.md) for development setup, checks, bindings, and release conventions. The project uses [mise](https://mise.jdx.dev/) for tools and npm for dependencies.
 
-The bindings in `src/gen/` are generated from the protos of the pinned core release and committed, so building and testing need no core checkout. `mise run proto:check` fails when they are stale. `scripts/README.md` describes the core-sync and release automation.
-
-```shell
-mise run ci             # everything CI runs: check, test, build
-mise run proto:gen      # fetch core's protos at the pin and regenerate src/gen/
-mise run format         # Biome: format + safe fixes (writes)
-mise run check          # format check, lint, typecheck, proto:check, vendored:check
-mise run test           # Vitest unit tests with an 80% line-coverage gate
-mise run build          # emit dist/ and verify the package contents
-```
-
-Formatting and linting are handled by [Biome](https://biomejs.dev) (`biome.json`): 2-space indent, single quotes, semicolons, 120-column width. Generated `src/gen/` and the fixtures vendored from core (`test/fixtures/`, listed in `scripts/vendored-core-files.txt`) are excluded.
-
-CI runs the unit tests on every Node version in `mise.toml`. To run them on one locally, set `MISE_NODE_VERSION`, for example `MISE_NODE_VERSION=20.20.2 mise run test`.
-
-`e2e/interactive-exec.mjs` still expects core's Docker gateway harness; running it here against a published gateway comes with the E2E workflow.
+Report vulnerabilities through the [security policy](https://github.com/ai-openshell/sdk-typescript/blob/main/SECURITY.md).
 
 ## Repository history
 
