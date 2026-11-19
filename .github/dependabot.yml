@@ -23,7 +23,14 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
+      # Our own shared workflows, so their updates aren't held back.
+      exclude:
+        - "ai-openshell/workflows*"
     groups:
       codeql:
         patterns:
           - "github/codeql-action*"
+      # The shared core-sync workflows, all called at one commit.
+      core-sync:
+        patterns:
+          - "ai-openshell/workflows*"
