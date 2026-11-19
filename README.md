@@ -1,25 +1,30 @@
-# @ai-openshell/sdk
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-light.png">
+  <img alt="OpenShell" src="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-light.png" width="430">
+</picture>
 
-TypeScript client for the OpenShell gateway — thin, idiomatic bindings generated from the OpenShell protobufs.
+# TypeScript SDK for OpenShell
 
-This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) to GitHub Packages as `@nvidia/openshell-sdk` before SDK development moved to this repository. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and remove the `@nvidia:registry=https://npm.pkg.github.com` line and its token from `.npmrc` if nothing else uses them. The entry points (`.` and `./raw`) and the API are unchanged.
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue)](https://github.com/ai-openshell/sdk-typescript/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@ai-openshell/sdk?logo=npm)](https://www.npmjs.com/package/@ai-openshell/sdk)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](https://docs.nvidia.com/openshell/latest/sdk/typescript)
 
-Use the SDK and gateway from the same OpenShell release when possible. The raw
-types and RPC descriptors are generated from the protobuf definitions in that
-release; curated methods remain compatible while those RPC contracts remain
-compatible.
+Use the TypeScript SDK to manage [OpenShell](https://github.com/NVIDIA/OpenShell) sandboxes from Node.js applications and automation. Create sandboxes, run and stream commands, forward ports, and manage templates, policy, and provider credentials through the gateway.
 
-## Install
+See the [TypeScript SDK documentation](https://docs.nvidia.com/openshell/latest/sdk/typescript) for connection options, authentication, and the raw client.
 
-Published to [npmjs.org](https://www.npmjs.com/package/@ai-openshell/sdk) with provenance; no registry configuration or token is needed:
+## Installation
+
+The SDK requires Node.js 20.3 or later and a [running OpenShell gateway](https://docs.nvidia.com/openshell/latest/about/installation). It is published to [npmjs.org](https://www.npmjs.com/package/@ai-openshell/sdk) with provenance, so no registry configuration or token is needed:
 
 ```shell
 npm install @ai-openshell/sdk
 ```
 
-Releases follow OpenShell core: each stable core release `vX.Y.Z` gets an SDK release `X.Y.Z` built against its protos.
+## Quickstart
 
-## Usage
+Connect to a gateway, create a sandbox, run a command in it, and delete it:
 
 ```ts
 import { OpenShellClient } from '@ai-openshell/sdk'
@@ -48,6 +53,12 @@ if (deletion.outcome === 'accepted') {
 }
 ```
 
+Sandbox refs from `create`, `get`, and `list` carry `createdAtMs` (epoch milliseconds), absent when the gateway omits it.
+
+## Usage examples
+
+### Delete sandboxes
+
 Deletion returns a typed result, not a boolean. `accepted` means cleanup is
 pending; `unspecified` and unknown outcomes do not establish completion.
 `sandboxId` identifies the original sandbox. Missing targets are errors unless
@@ -60,7 +71,7 @@ resolves to a different ID. Without that option, it waits for name absence,
 including any same-name replacement. Pass the same `workspace` to deletion and
 its wait when using a non-default workspace.
 
-Sandbox refs from `create`, `get`, and `list` carry `createdAtMs` (epoch milliseconds), absent when the gateway omits it.
+### Authenticate service automation
 
 `connect()` constructs a lazy client; call `health()` when startup must verify
 gateway reachability. Static `oidcToken` and `edgeToken` values remain fixed for
@@ -87,6 +98,8 @@ in memory, and renews before expiry. The root client has no explicit close
 method because Connect does not retain a dedicated session. Close
 operation-scoped streams and forward handles instead.
 
+### Set policy at creation
+
 Express the create-time safety boundary with `policy`. Sandbox-scoped `setPolicy`
 cannot introduce static policy fields later, so set filesystem, landlock,
 process, and initial network policy at creation. For proto spec fields the
@@ -101,7 +114,7 @@ await client.sandbox.create({
 })
 ```
 
-### Scoped clients
+### Use scoped clients
 
 `client.sandbox` is a `SandboxClient`. If you only need sandboxes, connect one
 directly — same API, one less hop:
@@ -113,7 +126,7 @@ const sandbox = await SandboxClient.connect({ gateway, oidcToken })
 await sandbox.create({ image })
 ```
 
-## Provider credential retrieval
+### Retrieve provider credentials
 
 `client.providers.getCredentials(name, keys, options)` exports selected runtime
 credentials using direct gateway mTLS with a trusted `OU=operator` certificate.
@@ -143,7 +156,7 @@ sandbox policy enforcement. See the published
 [SDK example](https://docs.nvidia.com/openshell/latest/sdk/typescript#retrieve-provider-credentials)
 and [provider reference](https://docs.nvidia.com/openshell/latest/how-it-works/providers/overview#retrieve-runtime-credentials).
 
-## Streaming and interactive exec
+### Stream output and run interactive commands
 
 `execStream` yields stdout/stderr chunks as they arrive, so long or chatty commands surface output incrementally instead of buffering until exit. The stream ends with a terminal `{ type: 'exit', exitCode }` event, yielded in-band so a failing command cannot look successful under `for await`. Discriminate it with `'type' in event`. If the gateway closes the stream without an exit event, `execStream` throws. `exec` drains `execStream` internally, so its buffered `ExecResult` is unchanged.
 
@@ -179,7 +192,7 @@ for await (const event of session.output) {
 const code = await session.done
 ```
 
-## Port forwarding
+### Forward ports
 
 `forward` binds a local TCP listener and tunnels each accepted connection into the sandbox for the lifetime of the Node process. Call `close()` on teardown.
 
@@ -195,7 +208,7 @@ await fwd.close()
 `close()` is idempotent. It cancels active forwarding RPCs, destroys accepted
 sockets, and waits for their cleanup.
 
-## SSH sessions, providers, config and policy
+### Manage SSH sessions, providers, config, and policy
 
 ```ts
 const ssh = await client.sandbox.createSshSession(name)
@@ -213,7 +226,7 @@ await client.sandbox.setSetting(name, 'feature.enabled', { value: { case: 'boolV
 
 Sandbox-scoped `setPolicy` may only change `networkPolicies`; static fields (`filesystem`, `landlock`, `process`) must match the create-time policy. Sandbox-scoped setting deletes are rejected by the gateway, so only upsert (`setSetting`) is exposed here.
 
-## Sandbox templates
+### Manage sandbox templates
 
 Sandbox workload templates are reusable, workspace-scoped runtime shapes. They
 own image, environment, resource, and driver-specific settings; sandbox creation
@@ -251,6 +264,8 @@ await client.sandboxTemplates.listAll({ workspace: 'default', pageSize: 100 })
 await client.sandboxTemplates.delete('python', { workspace: 'default' })
 ```
 
+### List sandboxes
+
 Use `allWorkspaces: true` on `list()` for a platform-admin view. The
 discriminated option type makes `workspace` and `allWorkspaces` mutually
 exclusive. Omitting both options explicitly selects the `default` workspace.
@@ -266,7 +281,7 @@ for await (const page of pages) {
 }
 ```
 
-## Surface and roadmap
+## API surface
 
 The SDK's goal is agent parity: anything the OpenShell gateway can do should be reachable from typed code, not only the CLI. The API is organized as scoped sub-clients over one shared connection, mirroring the CLI's verbs.
 
@@ -279,7 +294,7 @@ The SDK's goal is agent parity: anything the OpenShell gateway can do should be 
 
 Curated methods are added deliberately, so some gateway RPCs are not yet wrapped in a typed helper. Rather than ship methods that exist but throw, the SDK omits what it has not curated and gives you the raw escape hatch below to reach the full gateway surface today. Omission means "not yet ergonomic," never "impossible."
 
-### Advanced: raw escape hatch
+### Raw escape hatch
 
 `client.raw` is a generated client for every gateway RPC, including surface the curated sub-clients do not wrap yet (gateway config, provider CRUD, policy status, watch, logs, and the full observed `Sandbox`). `client.transport` is the shared connection, so extra clients reuse one socket. Generated request and response types live at `@ai-openshell/sdk/raw`.
 
@@ -321,7 +336,7 @@ the corresponding schema imported from `@ai-openshell/sdk/raw`. Schema-based
 initialization supplies the empty array when omitted. The curated SDK API is
 unchanged.
 
-## Boundaries
+### Boundaries
 
 The SDK ships primitives, not the CLI's terminal experience. Some things are intentionally out of scope:
 
@@ -329,11 +344,23 @@ The SDK ships primitives, not the CLI's terminal experience. Some things are int
 - **`upload()` / `download()`.** There is no file-transfer RPC — the CLI does tar-over-SSH. For small payloads, `exec`/`execStream` with `stdin` covers it. A first-class gateway file-transfer RPC is a follow-up.
 - **Detached / background forwards.** An in-process forward cannot outlive its caller; `forward` is process-lifetime only.
 
-## Development
+## Documentation
 
-The version field is a `0.0.0` placeholder; the release workflow stamps the real version at publish time.
+- [TypeScript SDK guide](https://docs.nvidia.com/openshell/latest/sdk/typescript): connections, provider credentials, sandboxes, logs, and the raw client.
+- [Sandboxes](https://docs.nvidia.com/openshell/latest/how-it-works/sandboxes/overview): lifecycle, workload images, and templates.
+- [API errors](https://docs.nvidia.com/openshell/latest/sdk/api-errors): structured gateway errors and error handling.
 
-The bindings in `src/gen/` are generated from the protos of the OpenShell core release pinned in `mise.toml` (`OPENSHELL_CORE_REF`) and committed, so building and testing need no core checkout. `mise run proto:check` fails when they are stale.
+## Supported core versions
+
+Use SDK and gateway versions from the same OpenShell release when possible. SDK releases follow core releases: SDK `X.Y.Z` is built from core `vX.Y.Z`. The raw types and RPC descriptors are generated from that release's protobuf definitions; curated methods remain compatible while those RPC contracts remain compatible.
+
+The generated bindings currently target core `v0.1.9`, pinned by `OPENSHELL_CORE_REF` in `mise.toml`.
+
+## Contributing
+
+The project uses [mise](https://mise.jdx.dev/) for tools and npm for dependencies. The version field in `package.json` is a `0.0.0` placeholder; the release workflow stamps the real version at publish time.
+
+The bindings in `src/gen/` are generated from the protos of the pinned core release and committed, so building and testing need no core checkout. `mise run proto:check` fails when they are stale. `scripts/README.md` describes the core-sync and release automation.
 
 ```shell
 mise run ci             # everything CI runs: check, test, build
@@ -349,3 +376,13 @@ Formatting and linting are handled by [Biome](https://biomejs.dev) (`biome.json`
 CI runs the unit tests on every Node version in `mise.toml`. To run them on one locally, set `MISE_NODE_VERSION`, for example `MISE_NODE_VERSION=20.20.2 mise run test`.
 
 `e2e/interactive-exec.mjs` still expects core's Docker gateway harness; running it here against a published gateway comes with the E2E workflow.
+
+## Repository history
+
+The SDK moved from NVIDIA/OpenShell to this repository, which also renamed the package. Core published it to GitHub Packages as `@nvidia/openshell-sdk`; earlier releases remain available there. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and remove the `@nvidia:registry=https://npm.pkg.github.com` line and its token from `.npmrc` if nothing else uses them. The entry points (`.` and `./raw`) and the API are unchanged.
+
+History through core `v0.1.9` was imported from NVIDIA/OpenShell. The extraction and verification scripts are preserved under [hack/migration on the migration/v0.1.9 branch](https://github.com/ai-openshell/sdk-typescript/tree/migration/v0.1.9/hack/migration).
+
+## License
+
+[Apache-2.0](https://github.com/ai-openshell/sdk-typescript/blob/main/LICENSE).
