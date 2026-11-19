@@ -2,9 +2,7 @@
 
 TypeScript client for the OpenShell gateway — thin, idiomatic bindings generated from the OpenShell protobufs.
 
-Distributed via GitHub Packages. A public npm release under the same name follows once the npm org is in place; the install specifier and API are unchanged across that move.
-
-This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) as `@nvidia/openshell-sdk` before SDK development moved to this repository. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and change the `.npmrc` scope below. The entry points (`.` and `./raw`) and the API are unchanged.
+This package was published from [NVIDIA/OpenShell](https://github.com/NVIDIA/OpenShell) to GitHub Packages as `@nvidia/openshell-sdk` before SDK development moved to this repository. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and remove the `@nvidia:registry=https://npm.pkg.github.com` line and its token from `.npmrc` if nothing else uses them. The entry points (`.` and `./raw`) and the API are unchanged.
 
 Use the SDK and gateway from the same OpenShell release when possible. The raw
 types and RPC descriptors are generated from the protobuf definitions in that
@@ -13,17 +11,13 @@ compatible.
 
 ## Install
 
-Published to GitHub Packages, so point the `@ai-openshell` scope at it with a project `.npmrc`:
-
-```shell
-@ai-openshell:registry=https://npm.pkg.github.com
-```
-
-Authenticate with a GitHub token that has `read:packages`, then:
+Published to [npmjs.org](https://www.npmjs.com/package/@ai-openshell/sdk) with provenance; no registry configuration or token is needed:
 
 ```shell
 npm install @ai-openshell/sdk
 ```
+
+Releases follow OpenShell core: each stable core release `vX.Y.Z` gets an SDK release `X.Y.Z` built against its protos.
 
 ## Usage
 

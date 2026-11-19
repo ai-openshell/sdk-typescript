@@ -23,6 +23,14 @@ The workflows use a GitHub App token from the `sdk-bot` environment (secrets `SD
 | `core-watch.yml` (hourly) | `core:tags`, then `core:bump` per tag |
 | `core-drift.yml` (nightly) | `core:drift`, then `core:drift-issue` |
 
+## `release/`: lockstep releases
+
+| File | Purpose |
+|------|---------|
+| `tag-release.sh [--dry-run] [--force] [--sha <commit>] [--since <commit>]` | When the pin at a commit on `main` moved to a stable core tag `vX.Y.Z`, create the tag `vX.Y.Z` there and a draft GitHub release. Prints `tag=vX.Y.Z` while the release still has to be published. |
+
+`release.yml` runs on every push to `main`. When `tag-release.sh` prints a tag, it builds the package at that version, publishes it to npmjs.org with trusted publishing from the `npm` environment, and publishes the GitHub release with the tarball and its checksum.
+
 ## Build and checks
 
 | File | mise task | Purpose |
