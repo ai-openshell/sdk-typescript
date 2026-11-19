@@ -1,13 +1,17 @@
 ## Summary
+
 <!-- 1-3 sentences: what this PR does and why -->
 
 ## Related Issue
+
 <!-- Closes #NNN. Small fixes, dependency updates and core bump PRs may skip the issue; say why instead. -->
 
 ## Changes
+
 <!-- Bullet list of key changes. Call out changes to the public API (`src/index.ts`) or to `@ai-openshell/sdk/raw`. -->
 
 ## Testing
+
 <!-- Report the verification you ran for this change. -->
 - [ ] `mise run ci` passes
 - [ ] Unit tests added/updated (if applicable)
