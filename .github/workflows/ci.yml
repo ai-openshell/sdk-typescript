@@ -103,6 +103,12 @@ jobs:
       - name: Lint workflows
         run: mise run workflows:check
 
+  # Not required by `ci`, matching sdk-python: a fresh core tag can be pinned
+  # before its gateway image is published.
+  e2e:
+    name: e2e
+    uses: ./.github/workflows/e2e.yml
+
   ci:
     name: ci
     if: always()

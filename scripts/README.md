@@ -31,6 +31,15 @@ The workflows use a GitHub App token from the `sdk-bot` environment (secrets `SD
 
 `release.yml` runs on every push to `main`. When `tag-release.sh` prints a tag, it builds the package at that version, publishes it to npmjs.org with trusted publishing from the `npm` environment, and publishes the GitHub release with the tarball and its checksum.
 
+## `e2e/`: E2E gateway
+
+| File | Purpose |
+|------|---------|
+| `start-gateway.sh <core-version> [--state-dir <dir>] [--default-image <image>]` | Start the published gateway of a core version with core's `deploy/docker` files and register it as `e2e`. Waits up to 15 minutes for the gateway image of a fresh tag. |
+| `stop-gateway.sh [--state-dir <dir>]` | Save the gateway log, remove the sandbox containers and the gateway, and remove the `e2e` registration. |
+
+`e2e.yml` runs them around `mise run e2e`, on every CI run and on manual dispatch with any core version.
+
 ## Build and checks
 
 | File | mise task | Purpose |

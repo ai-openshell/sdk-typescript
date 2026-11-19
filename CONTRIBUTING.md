@@ -20,6 +20,7 @@ mise installs Node.js and the tools; npm installs the dependencies from
 | `mise run format` | Format the code and apply safe fixes |
 | `mise run test` | Vitest unit tests with an 80% line-coverage gate |
 | `mise run build` | Emit `dist/` and verify the package contents |
+| `mise run e2e` | E2E tests against a running gateway; see below for setup |
 | `mise run proto:gen` | Regenerate the bindings from core at the pinned ref |
 | `mise run core:version` | Print the pinned core version |
 
@@ -33,10 +34,24 @@ and the files copied from core are excluded.
 
 ## E2E tests
 
-`e2e/interactive-exec.mjs` runs against a real gateway and still expects core's
-Docker gateway harness (`XDG_CONFIG_HOME` and `OPENSHELL_GATEWAY` pointing at a
-registered gateway). A workflow that runs it against the published gateway of
-the pinned core version is not set up yet.
+`e2e/` runs against a real gateway; `mise run test` skips it. CI runs it
+against the published gateway of the pinned core version, with the Docker
+compute driver. To run it locally, you need Docker with the compose plugin:
+
+```shell
+scripts/e2e/start-gateway.sh "$(mise run -q core:version)"
+OPENSHELL_GATEWAY=e2e mise run e2e
+scripts/e2e/stop-gateway.sh
+```
+
+Without `OPENSHELL_GATEWAY`, every E2E test is skipped. The suite reads the
+gateway registration from `$XDG_CONFIG_HOME/openshell/gateways/<name>`, so it
+can also run against another registered gateway.
+
+`start-gateway.sh` is meant for throwaway hosts. It serves the gateway on
+`127.0.0.1:8080`, registers `e2e` as the active gateway, and
+`stop-gateway.sh` removes every sandbox container labelled with core's default
+namespace. Set `XDG_CONFIG_HOME` to keep your own gateway registrations apart.
 
 ## Commits and pull requests
 
