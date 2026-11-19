@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: Apache-2.0
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    groups:
+      npm-minor-and-patch:
+        update-types: ["minor", "patch"]
+    ignore:
+      # protoc-gen-es stamps its version into the committed bindings in
+      # src/gen, so an update fails proto:check until they are regenerated.
+      # Update it by hand together with `mise run proto:gen`.
+      - dependency-name: "@bufbuild/protoc-gen-es"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
+    groups:
+      codeql:
+        patterns:
+          - "github/codeql-action*"
