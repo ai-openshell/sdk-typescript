@@ -1891,7 +1891,9 @@ export class SandboxClient {
         payload: {
           case: 'init',
           value: {
-            ...sandboxTarget(name, { workspace }),
+            // TcpForwardInit names the workspace directly; it has no workspace_scope.
+            sandbox: name,
+            workspace: workspaceName({ workspace }),
             serviceId: `service-forward:${name}:${targetHost}:${targetPort}`,
             target: {
               case: 'tcp',
