@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
+      actions: read # the init step reads this workflow run; private repositories don't grant it by default
       contents: read
       security-events: write
     steps:
