@@ -104,6 +104,11 @@ run = "npm ci --no-audit --no-fund"
 sources = ["package.json", "package-lock.json"]
 outputs = ["node_modules/.package-lock.json"]
 
+[tasks.e2e]
+description = "Run the E2E suite against the gateway named in OPENSHELL_GATEWAY (see scripts/e2e/start-gateway.sh)"
+depends = ["install"]
+run = "npx --no-install vitest run --config vitest.e2e.config.ts"
+
 [tasks.typecheck]
 description = "Type-check the SDK"
 depends = ["install"]

@@ -2171,7 +2171,7 @@ describe('forward', () => {
   it('binds a local port and relays bytes both ways, minting + revoking a token', async () => {
     let sshReq: ScopedRequest = {};
     let revokedToken: string | undefined;
-    let initFrame: (ScopedRequest & { authorizationToken?: string; target?: unknown }) | undefined;
+    let initFrame: (ScopedRequest & { authorizationToken?: string; target?: unknown; workspace?: string }) | undefined;
     const sandbox = client({
       getSandbox: () => readySandbox('sb', 'sb-id-forward'),
       createSshSession: (req) => {
@@ -2224,6 +2224,8 @@ describe('forward', () => {
     expect(echoed).toBe('ping-through-forward');
     expect(requestSandbox(sshReq)).toBe('sb');
     expect(requestSandbox(initFrame ?? {})).toBe('sb');
+    // The gateway rejects an init without a workspace name.
+    expect(initFrame?.workspace).toBe('default');
     expect(initFrame?.authorizationToken).toBe('fwd-tok');
     expect(initFrame?.target).toMatchObject({
       case: 'tcp',
