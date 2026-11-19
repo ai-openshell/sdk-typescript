@@ -2211,7 +2211,7 @@ describe('forward', () => {
         socket.write('ping-through-forward');
       });
       const buf: Buffer[] = [];
-      socket.on('data', (d) => {
+      socket.on('data', (d: Buffer) => {
         buf.push(d);
         if (Buffer.concat(buf).length >= 'ping-through-forward'.length) {
           resolve(Buffer.concat(buf).toString());
@@ -2360,7 +2360,7 @@ describe('forward', () => {
       const buf: Buffer[] = [];
       let total = 0;
       socket.on('connect', () => socket.write('go'));
-      socket.on('data', (d) => {
+      socket.on('data', (d: Buffer) => {
         buf.push(d);
         total += d.length;
         // Simulate a slow consumer: pause, then resume on the next tick. This
