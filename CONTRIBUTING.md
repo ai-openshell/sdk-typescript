@@ -105,7 +105,8 @@ Merging a pull request that moves the pin to a stable core tag releases the SDK.
 changed to a stable tag. Then it:
 
 1. tags `vX.Y.Z` at the merged commit and creates a draft GitHub release, with
-   the pull request's description as notes (`scripts/release/tag-release.sh`);
+   the pull request's description as notes (`mise run release:tag`, shared
+   through ai-openshell/workflows);
 2. builds the package at version `X.Y.Z`, verifies it, and writes its checksum;
 3. publishes `@ai-openshell/sdk` to npmjs.org from the `npm` environment with
    trusted publishing, so npm adds provenance;

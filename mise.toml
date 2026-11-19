@@ -29,6 +29,8 @@ zizmor = "1.32.0"
 [env]
 # The single core pin: a release tag.
 OPENSHELL_CORE_REF = "v0.1.9"
+# The committed generated bindings, for the core-sync summaries.
+OPENSHELL_GENERATED_PATHS = "src/gen"
 
 # --- Contract tasks ---------------------------------------------------------
 
@@ -89,7 +91,7 @@ description = "Lint GitHub workflows (actionlint with shellcheck, zizmor) and sh
 run = [
   "actionlint",
   "zizmor --offline --min-severity medium .github",
-  "shellcheck -x -S warning scripts/*.sh scripts/*/*.sh",
+  "shellcheck -x -S warning scripts/*.sh",
 ]
 
 # --- Repository tasks -------------------------------------------------------
@@ -161,24 +163,41 @@ while read -r src dst; do
 done <<<"$files"
 """
 
-# --- Core sync (scripts/core-sync/, run by core-watch.yml and core-drift.yml) --
+# --- Core sync --------------------------------------------------------------
+# The scripts are shared through ai-openshell/workflows (core-sync/).
+# scripts/core-sync.sh runs them at the commit the workflows call (the `uses:`
+# line in core-drift.yml is the pin). They call the tasks below this block
+# (core-sync/README.md there has the contract).
 
 [tasks."core:tags"]
 description = "List core release tags newer than the pin (newest pre-release only, --all for every tag)"
-run = "scripts/core-sync/core-tags.sh"
+run = "scripts/core-sync.sh core-tags.sh"
 
 [tasks."core:bump"]
 description = "Open the update proposal for a core tag: mise run core:bump -- <tag> [--dry-run]"
-run = "scripts/core-sync/open-bump-pr.sh"
+run = "scripts/core-sync.sh open-bump-pr.sh"
 
 [tasks."core:drift"]
 description = "Compare core main with the pin: mise run core:drift -- --out <report.md>"
-run = "scripts/core-sync/drift-check.sh"
+run = "scripts/core-sync.sh drift-check.sh"
 
 [tasks."core:drift-issue"]
 description = "Create, update, or close the core main drift issue from a report: mise run core:drift-issue -- <report.md> [--dry-run]"
-run = "scripts/core-sync/update-drift-issue.sh"
+run = "scripts/core-sync.sh update-drift-issue.sh"
 
 [tasks."core:report-failure"]
 description = "Record a failed automation run in the drift issue: mise run core:report-failure -- <job> <run-url> [--dry-run]"
-run = "scripts/core-sync/report-failure.sh"
+run = "scripts/core-sync.sh report-failure.sh"
+
+[tasks."release:tag"]
+description = "Tag and draft the release when a stable pin lands on main: mise run release:tag -- [--dry-run] [--force] [--sha <commit>] [--since <commit>]"
+run = "scripts/core-sync.sh tag-release.sh"
+
+[tasks."proto:buf"]
+description = "Run buf from the package's devDependencies: mise run proto:buf -- <args>"
+depends = ["install"]
+run = "npx --no-install buf"
+
+[tasks."core:uncovered-rpcs"]
+description = "List the RPCs in src/gen that the curated SDK doesn't call, one Service.Method per line"
+run = "scripts/uncovered-rpcs.sh"
