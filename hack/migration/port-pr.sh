@@ -7,14 +7,19 @@
 #        port-pr.sh --continue [options] <core-pr-number | core-commit>
 #
 # The argument is one of:
-#   a PR number   an open PR (its commits since the merge base with its base
-#                 branch) or a squash-merged PR (its merge commit)
+#   a PR number   an open or merged PR: its original commits since the merge
+#                 base with its base branch (with --squash, a merged PR's
+#                 squash commit instead)
 #   a commit      any commit reachable from core's main branch; ported alone
 #
 # Options:
 #   --base <ref>     branch the port starts from (default: origin/main)
 #   --core <url>     core repository to fetch from
 #                    (default: https://github.com/NVIDIA/OpenShell.git)
+#   --squash         port a merged PR's squash commit instead of its original
+#                    commits. GitHub authors a squash commit with the merger's
+#                    account email, which often does not match the
+#                    Signed-off-by trailers, so the DCO check fails.
 #   --push           push port/<id> and open the sdk-typescript PR (default: stop
 #                    after the local branch and print the PR body for review)
 #   --no-test        skip lint, type check, and the unit tests on the result
@@ -32,12 +37,14 @@
 #      in the patch headers (see the sed program in map_paths).
 #   4. git am --3way onto port/<id> from --base. On a conflict, resolve it,
 #      `git add` the files, run `git am --continue`, then rerun with --continue.
-#   5. Run lint, the type check, and the unit tests.
-#   6. With --push: push port/<id> and open a PR with a body from
+#   5. For a merged PR, check that the ported commits make the same SDK change
+#      as the squash commit that landed in core.
+#   6. Run lint, the type check, and the unit tests.
+#   7. With --push: push port/<id> and open a PR with a body from
 #      port-pr-body.md.
 #
-# Files the change touches outside the SDK paths are not ported and are listed
-# in the PR body; that part stays in core. The bindings under src/gen are
+# Files the change touches outside the SDK paths are not ported; that part
+# stays in core. The bindings under src/gen are
 # never ported: they are generated from the core ref pinned in mise.toml. A
 # change that reads proto fields newer than the pin fails the type check until
 # the pin moves; port it anyway with --no-test and land it with the core bump.
@@ -63,6 +70,7 @@ PATHSPECS=(
 base=origin/main
 core_url=https://github.com/NVIDIA/OpenShell.git
 push=0
+squash=0
 test=1
 cont=0
 arg=
@@ -77,6 +85,7 @@ while [ $# -gt 0 ]; do
   --base) base=${2:?--base needs a ref}; shift 2 ;;
   --core) core_url=${2:?--core needs a URL}; shift 2 ;;
   --push) push=1; shift ;;
+  --squash) squash=1; shift ;;
   --no-test) test=0; shift ;;
   --continue) cont=1; shift ;;
   -h | --help) usage ;;
@@ -153,6 +162,7 @@ if [ "$cont" -eq 0 ]; then
   if [ "$kind" = pr ]; then
     meta=$(gh pr view "$arg" -R "$core_repo" \
       --json state,baseRefName,headRefOid,mergeCommit,title,url,author)
+    squash_oid=
     state=$(jq -r .state <<<"$meta")
     core_base=$(jq -r .baseRefName <<<"$meta")
     case $state in
@@ -168,15 +178,25 @@ if [ "$cont" -eq 0 ]; then
       ;;
     MERGED)
       mc=$(jq -r .mergeCommit.oid <<<"$meta")
-      echo "Fetching $core_repo#$arg (merged as $mc) ..."
+      head_oid=$(jq -r .headRefOid <<<"$meta")
+      echo "Fetching $core_repo#$arg (merged as $mc, head $head_oid) ..."
       git fetch --quiet --no-tags "$core_url" "+refs/heads/$core_base:$src/base"
       git cat-file -e "$mc^{commit}" 2>/dev/null ||
         die "merge commit $mc is not reachable from $core_base"
       [ "$(git rev-list --parents -n1 "$mc" | wc -w)" -eq 2 ] ||
         die "$mc is a merge commit; only squash or rebase merged PRs with one parent are supported, port the commits one by one"
-      git update-ref "$src/head" "$mc"
-      from=$mc^
-      to=$mc
+      if [ "$squash" -eq 1 ]; then
+        git update-ref "$src/head" "$mc"
+        from=$mc^
+        to=$mc
+      else
+        git fetch --quiet --no-tags "$core_url" "+refs/pull/$arg/head:$src/head"
+        [ "$(git rev-parse "$src/head")" = "$head_oid" ] ||
+          die "fetched head does not match $head_oid; rerun with --squash to port the squash commit"
+        from=$(git merge-base "$mc^" "$src/head")
+        to=$src/head
+        squash_oid=$mc
+      fi
       ;;
     *) die "$core_repo#$arg is $state, only open and merged PRs are ported" ;;
     esac
@@ -197,8 +217,8 @@ if [ "$cont" -eq 0 ]; then
   fi
   head_oid=$(git rev-parse "$to")
   jq -n --arg title "$title" --arg url "$url" --arg author "$author" \
-    --arg ref "$ref" --arg head "$head_oid" \
-    '{title:$title,url:$url,author:$author,ref:$ref,head:$head}' >"$state_dir/meta.json"
+    --arg ref "$ref" --arg head "$head_oid" --arg squash "${squash_oid:-}" \
+    '{title:$title,url:$url,author:$author,ref:$ref,head:$head,squash:$squash}' >"$state_dir/meta.json"
 
   # Files the change touches that are not ported.
   git diff --name-only "$from" "$to" >"$state_dir/all.txt"
@@ -247,6 +267,17 @@ start=$(cat "$state_dir/start")
 ncommits=$(git rev-list --count "$start..HEAD")
 [ "$ncommits" -gt 0 ] || die "no commits were applied"
 
+# The original commits of a merged PR must add up to the SDK change that
+# landed. patch-id ignores line numbers, so drift elsewhere in a file is fine.
+squash_oid=$(jq -r '.squash // empty' <<<"$meta")
+if [ -n "$squash_oid" ]; then
+  want=$(git diff "$squash_oid^" "$squash_oid" -- "${PATHSPECS[@]}" | map_paths | git patch-id --stable | cut -d' ' -f1)
+  got=$(git diff "$start" HEAD | git patch-id --stable | cut -d' ' -f1)
+  [ "$want" = "$got" ] ||
+    die "the ported commits differ from the SDK change in the squash commit $squash_oid; compare them, or port again with --squash"
+  echo "The ported commits match the squash commit $(git rev-parse --short "$squash_oid")."
+fi
+
 if [ "$test" -eq 1 ]; then
   echo "Checking ..."
   # The bindings are committed, so the checks need no core checkout.
@@ -262,14 +293,9 @@ ref=$(jq -r .ref <<<"$meta")
 head_oid=$(jq -r .head <<<"$meta")
 freeze=$(sed -n 's/^sha=//p' "$here/FREEZE" 2>/dev/null || true)
 commits=$(git log --reverse --format='- %h %s (%an)' "$start..HEAD")
-if [ -s "$state_dir/outside.txt" ]; then
-  outside=$(printf 'These files are outside the ported SDK paths and stay in core:\n\n'; sed 's/^/- `/; s/$/`/' "$state_dir/outside.txt")
-else
-  outside='The change touched only SDK paths, so nothing stays in core.'
-fi
 body="$state_dir/body.md"
 CORE_PR="$ref" CORE_URL="$url" AUTHOR="$author" HEAD_OID="$head_oid" \
-FREEZE_SHA="${freeze:-unknown}" COMMITS="$commits" OUTSIDE="$outside" \
+FREEZE_SHA="${freeze:-unknown}" COMMITS="$commits" \
   awk '{
     while (match($0, /\{\{[A-Z_]+\}\}/)) {
       key = substr($0, RSTART + 2, RLENGTH - 4)

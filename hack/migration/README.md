@@ -42,9 +42,9 @@ Core froze `sdk/typescript/` (`TypeScript SDK Freeze` check), so a core change t
 ../migration/hack/migration/port-pr.sh <core-pr-number | core-commit>
 ```
 
-The script builds `port/<id>` from `origin/main`, qualifies bare `#N` in commit messages as `NVIDIA/OpenShell#N`, applies the commits with `git am --3way`, runs the checks, and prints the PR body. Nothing is pushed until you rerun with `--continue --push`. On a conflict, resolve it, `git add` the files, run `git am --continue`, then rerun with `--continue`.
+For a merged PR the script ports its original commits, whose authors match their `Signed-off-by` trailers, and checks that together they make the same SDK change as the squash commit that landed in core. `--squash` ports the squash commit instead; GitHub authors it with the merger's account email, which often fails the DCO check. The script builds `port/<id>` from `origin/main`, qualifies bare `#N` in commit messages as `NVIDIA/OpenShell#N`, applies the commits with `git am --3way`, runs the checks, and prints the PR body. Nothing is pushed until you rerun with `--continue --push`. On a conflict, resolve it, `git add` the files, run `git am --continue`, then rerun with `--continue`.
 
-Not ported, and listed in the PR body: everything outside `sdk/typescript/`, and core's `sdk/typescript/e2e/`, which this repository's E2E suite replaced. The bindings under `src/gen` are generated from the core ref in `mise.toml`, so a change that reads newer proto fields fails the type check until the pin moves. Port it with `--continue --no-test --push` and land it with the core bump.
+Not ported: everything outside `sdk/typescript/`, and core's `sdk/typescript/e2e/`, which this repository's E2E suite replaced. The bindings under `src/gen` are generated from the core ref in `mise.toml`, so a change that reads newer proto fields fails the type check until the pin moves. Port it with `--continue --no-test --push` and land it with the core bump.
 
 Core later replaced `sdk/typescript/` with the `@nvidia/openshell-sdk` re-export stub (NVIDIA/OpenShell#5685). Only port changes made before that.
 
