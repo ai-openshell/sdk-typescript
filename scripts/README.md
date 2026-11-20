@@ -10,7 +10,7 @@ The workflows use a GitHub App token from the `sdk-bot` environment (secrets `SD
 
 | File | mise task | Purpose |
 |------|-----------|---------|
-| `core-tags.sh [--all]` | `core:tags` | List NVIDIA/OpenShell release tags newer than the pin: every stable tag, plus the newest pre-release when it is newer than all of them. |
+| `core-tags.sh [--all]` | `core:tags` | List NVIDIA/OpenShell release tags newer than the pin: every stable tag, plus the newest pre-release when it is newer than all of them. For a commit SHA pin, the newer tags are those that contain the commit. |
 | `open-bump-pr.sh <tag> [--dry-run]` | `core:bump` | Open the update proposal for one core tag: branch `core/<tag>`, pin change, regenerated bindings in `src/gen`, refreshed copies of core files, proto diff in the body, labels `core-bump` plus `stable` or `prerelease`. Closes older pre-release proposals. |
 | `bump-pr-body.md` | | PR body template for `open-bump-pr.sh`. |
 | `drift-check.sh --out <file>` | `core:drift` | Compare core `main` with the pin: `buf breaking`, regenerate, then run `check` and the unit tests, list the RPCs the curated SDK doesn't call. Writes the markdown report. |
@@ -35,7 +35,7 @@ The workflows use a GitHub App token from the `sdk-bot` environment (secrets `SD
 
 | File | Purpose |
 |------|---------|
-| `start-gateway.sh <core-version> [--state-dir <dir>] [--default-image <image>]` | Start the published gateway of a core version with core's `deploy/docker` files and register it as `e2e`. Waits up to 15 minutes for the gateway image of a fresh tag. |
+| `start-gateway.sh <core-version> [--state-dir <dir>] [--default-image <image>]` | Start the published gateway of a core version (a release tag, or a commit SHA with dev images) with core's `deploy/docker` files and register it as `e2e`. Waits up to 15 minutes for the gateway image of a fresh tag. |
 | `stop-gateway.sh [--state-dir <dir>]` | Save the gateway log, remove the sandbox containers and the gateway, and remove the `e2e` registration. |
 
 `e2e.yml` runs them around `mise run e2e`, on every CI run and on manual dispatch with any core version.

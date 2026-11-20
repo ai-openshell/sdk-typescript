@@ -77,6 +77,17 @@ generated API changes visible in the diff. protoc-gen-es stamps its version
 into the bindings, so update it together with `mise run proto:gen`; Dependabot
 leaves it alone.
 
+### Pinning a core commit
+
+To land SDK support for a proto change that is on core's `main` but in no
+core tag yet, pin the full 40-character commit SHA instead of a tag:
+`OPENSHELL_CORE_REF = "<sha>"` in `mise.toml`, then `mise run proto:gen`.
+Pick a commit that has dev images: core's `release-dev.yml` publishes
+`ghcr.io/nvidia/openshell/{gateway,supervisor,sandbox}:<sha>` for batches of
+`main` commits, and the E2E job runs those images. A SHA pin is never
+released. Core-watch treats every release tag that contains the commit as
+newer, and its bump proposal moves the pin back to a tag.
+
 Shared test fixtures come from core's `sdk/conformance/` and are copied into
 `test/fixtures/` (listed in `scripts/vendored-core-files.txt`).
 `mise run vendored:check` compares them with core at the pinned ref.
@@ -97,7 +108,8 @@ doesn't cover yet, and keeps one issue labeled `core-drift` up to date. See
 ## Releases
 
 SDK releases follow core releases: SDK `X.Y.Z` is built from core `vX.Y.Z`, and
-there are no SDK-only releases. Pre-release pins are never released. The
+there are no SDK-only releases. Pre-release and commit SHA pins are never
+released. The
 `version` in `package.json` stays `0.0.0`; the release stamps the real one.
 
 Merging a pull request that moves the pin to a stable core tag releases the SDK.

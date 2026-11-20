@@ -19,7 +19,7 @@
 # a PR is the leftover of a run that pushed but failed to open the PR; the
 # run rebuilds it and replaces the branch (force-with-lease) so the PR gets
 # opened. When the core tag no longer exists, closes an open proposal for it.
-# The current pin must be a release tag; a commit SHA pin stops the run.
+# The current pin may be a release tag or a full commit SHA on core's main.
 # Git identity and GH_TOKEN come from the environment (the App in CI).
 set -euo pipefail
 
@@ -104,8 +104,8 @@ git fetch --quiet origin
 git rev-parse --verify --quiet "$base^{commit}" >/dev/null || die "base $base is not a commit"
 old=$(git show "$base:mise.toml" | pin_of)
 [ -n "$old" ] || die "no OPENSHELL_CORE_REF in mise.toml on $base"
-[[ "$old" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ ]] ||
-  die "OPENSHELL_CORE_REF on $base is '$old', not a release tag; the core-sync automation does not support commit SHA pins"
+[[ "$old" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ || "$old" =~ ^[0-9a-f]{40}$ ]] ||
+  die "OPENSHELL_CORE_REF on $base is '$old', neither a release tag nor a full commit SHA"
 [ "$old" != "$tag" ] || { echo "The pin on $base is $tag already; skipping."; exit 0; }
 
 work=$(mktemp -d)
@@ -146,13 +146,14 @@ git worktree add --quiet -b "$branch" "$work/wt" "$base"
   git commit --quiet --signoff -m "chore(core): track $tag" -m "Move the core pin from $old to $tag and regenerate the bindings."
 )
 
-# Proto diff between the two core tags. The compare API caps its file list at
-# 300 entries, so fetch both tags shallow and blobless and diff locally; only
-# the proto/ blobs are downloaded.
+# Proto diff between the old pin and the tag. The compare API caps its file
+# list at 300 entries, so fetch both shallow and blobless and diff locally;
+# only the proto/ blobs are downloaded. The old pin may be a commit SHA.
 compare_url="https://github.com/$core_repo/compare/$old...$tag"
+case $old in v*) old_spec="refs/tags/$old:refs/tags/$old" ;; *) old_spec="$old" ;; esac
 git init --quiet --bare "$work/core.git"
 git -C "$work/core.git" fetch --quiet --depth=1 --filter=blob:none --no-tags \
-  "https://github.com/$core_repo.git" "refs/tags/$old:refs/tags/$old" "refs/tags/$tag:refs/tags/$tag"
+  "https://github.com/$core_repo.git" "$old_spec" "refs/tags/$tag:refs/tags/$tag"
 proto_diff=$(git -C "$work/core.git" diff "$old" "$tag" -- proto/)
 if [ -z "$proto_diff" ]; then
   proto_section="No changes under \`proto/\` between \`$old\` and \`$tag\`."
