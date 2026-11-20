@@ -11,6 +11,7 @@ file.
 |------|---------|
 | `FREEZE` | The core commit the import was taken at. |
 | `message-rules.txt` | Rewrites bare `#N` in commit messages to `NVIDIA/OpenShell#N`. |
+| `import-core.sh` | Import core commits that changed the SDK after the import, exactly as they are on core's main, by extending the filtered history and merging it. |
 | `port-pr.sh` | Port a core PR (open or squash-merged) or commit that touches the SDK into this repository, with original commits and authors. |
 | `port-pr-body.md` | PR body template for `port-pr.sh`. |
 | `extract-history.sh` | Produces the filtered repository from a core clone at the freeze commit. |
@@ -34,9 +35,19 @@ Fixes over the Python copies: `extract-history.sh` sets `main` with
 no-checkout clone already has as `HEAD`, and it tolerates a core clone whose
 only branch is `main`.
 
+## Import a merged core change
+
+Use `import-core.sh` for a change that already landed on core's main. From a clean sdk-typescript clone, with this branch checked out elsewhere:
+
+```shell
+../migration/hack/migration/import-core.sh <core-clone> <core-commit>
+```
+
+It filters core's history through `<core-commit>` with `extract-history.sh` and merges the filtered tip into `import/<short-sha>` from `origin/main` with a signed-off merge commit, as the v0.1.9 refresh did. Filtering is deterministic, so the commits already imported keep their ids and only newer SDK commits are added, unchanged: same author, committer, dates, and message. Merge the PR with a merge commit. A core commit whose sign-off does not match its author, such as a squash commit GitHub authored with the merger's account email, fails DCO here as it would have in core; a maintainer overrides it. NVIDIA/OpenShell#4956 was imported this way.
+
 ## Port a core change
 
-Core froze `sdk/typescript/` (`TypeScript SDK Freeze` check), so a core change that still edits it has to land here instead. `port-pr.sh` is sdk-python's script (`migration/v0.1.7`) with this repository's paths: it strips the `sdk/typescript/` prefix, and it runs `mise run lint`, `typecheck`, and `test`. From a clean sdk-typescript clone, with this branch checked out elsewhere (for example `git worktree add ../migration migration/v0.1.9`):
+Core froze `sdk/typescript/` (`TypeScript SDK Freeze` check), so an open core PR that still edits it has to land here instead. `port-pr.sh` is sdk-python's script (`migration/v0.1.7`) with this repository's paths: it strips the `sdk/typescript/` prefix, and it runs `mise run lint`, `typecheck`, and `test`. From a clean sdk-typescript clone, with this branch checked out elsewhere (for example `git worktree add ../migration migration/v0.1.9`):
 
 ```shell
 ../migration/hack/migration/port-pr.sh <core-pr-number | core-commit>
