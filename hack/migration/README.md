@@ -11,6 +11,8 @@ file.
 |------|---------|
 | `FREEZE` | The core commit the import was taken at. |
 | `message-rules.txt` | Rewrites bare `#N` in commit messages to `NVIDIA/OpenShell#N`. |
+| `port-pr.sh` | Port a core PR (open or squash-merged) or commit that touches the SDK into this repository, with original commits and authors. |
+| `port-pr-body.md` | PR body template for `port-pr.sh`. |
 | `extract-history.sh` | Produces the filtered repository from a core clone at the freeze commit. |
 | `verify-tree.sh` | Checks the filtered tip against core and prints commit, author, and sign-off counts. |
 
@@ -31,6 +33,20 @@ Fixes over the Python copies: `extract-history.sh` sets `main` with
 `git update-ref`, because `git branch --force` refuses the branch a
 no-checkout clone already has as `HEAD`, and it tolerates a core clone whose
 only branch is `main`.
+
+## Port a core change
+
+Core froze `sdk/typescript/` (`TypeScript SDK Freeze` check), so a core change that still edits it has to land here instead. `port-pr.sh` is sdk-python's script (`migration/v0.1.7`) with this repository's paths: it strips the `sdk/typescript/` prefix, and it runs `mise run lint`, `typecheck`, and `test`. From a clean sdk-typescript clone, with this branch checked out elsewhere (for example `git worktree add ../migration migration/v0.1.9`):
+
+```shell
+../migration/hack/migration/port-pr.sh <core-pr-number | core-commit>
+```
+
+The script builds `port/<id>` from `origin/main`, qualifies bare `#N` in commit messages as `NVIDIA/OpenShell#N`, applies the commits with `git am --3way`, runs the checks, and prints the PR body. Nothing is pushed until you rerun with `--continue --push`. On a conflict, resolve it, `git add` the files, run `git am --continue`, then rerun with `--continue`.
+
+Not ported, and listed in the PR body: everything outside `sdk/typescript/`, and core's `sdk/typescript/e2e/`, which this repository's E2E suite replaced. The bindings under `src/gen` are generated from the core ref in `mise.toml`, so a change that reads newer proto fields fails the type check until the pin moves. Port it with `--continue --no-test --push` and land it with the core bump.
+
+Core later replaced `sdk/typescript/` with the `@nvidia/openshell-sdk` re-export stub (NVIDIA/OpenShell#5685). Only port changes made before that.
 
 ## Current freeze
 
