@@ -4,6 +4,11 @@
 # start-gateway.sh: run the published OpenShell gateway for a core version
 # with the Docker compute driver, for the E2E lane.
 #
+# The core version is a release tag, or a full commit SHA on core's main.
+# Core tags images with the version without its "v" for releases, and with
+# the full commit SHA for the dev builds of main (release-dev.yml). Dev builds
+# cover batches of main commits, so not every commit has images.
+#
 # Usage: start-gateway.sh <core-version> [--state-dir <dir>] [--default-image <image>]
 #
 # Uses core's own deployment files, deploy/docker/docker-compose.yml and
@@ -40,11 +45,14 @@ while [ $# -gt 0 ]; do
   *) tag=$1; shift ;;
   esac
 done
-[[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ ]] || {
-  echo "usage: $0 <core-version>   (vX.Y.Z or vX.Y.Z-pre.N)" >&2
+if [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ ]]; then
+  semver=${tag#v}
+elif [[ "$tag" =~ ^[0-9a-f]{40}$ ]]; then
+  semver=$tag
+else
+  echo "usage: $0 <core-version>   (vX.Y.Z, vX.Y.Z-pre.N, or a full commit SHA)" >&2
   exit 2
-}
-semver=${tag#v}
+fi
 mkdir -p "$state"
 echo "$tag" >"$state/core-version"
 
@@ -59,14 +67,18 @@ manifest_exists() {
 for i in $(seq 1 15); do
   manifest_exists && break
   if [ "$i" -eq 15 ]; then
-    echo "ERROR: gateway image for $semver not published yet, re-run later" >&2
+    if [ "$semver" = "$tag" ]; then
+      echo "ERROR: no gateway image for core commit $tag; core's dev builds cover batches of main commits, so pin one that has images" >&2
+    else
+      echo "ERROR: gateway image for $semver not published yet, re-run later" >&2
+    fi
     exit 1
   fi
   echo "Waiting for $registry/gateway:$semver ($i/15) ..."
   sleep 60
 done
 
-# Core's deployment files at the tag.
+# Core's deployment files at the tag or commit.
 base="https://raw.githubusercontent.com/$core_repo/$tag/deploy/docker"
 curl -fsSL "$base/docker-compose.yml" -o "$state/docker-compose.yml"
 curl -fsSL "$base/gateway.toml" -o "$state/gateway.toml"

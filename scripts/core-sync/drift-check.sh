@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
 
-# drift-check.sh: compare core main with the pinned core tag.
+# drift-check.sh: compare core main with the pinned core tag or commit.
 #
 # Usage: drift-check.sh --out <report.md>
 #
@@ -38,10 +38,15 @@ case $out in /*) ;; *) out="$(pwd)/$out" ;; esac
 pin_of() { sed -n 's/^OPENSHELL_CORE_REF = "\(.*\)"$/\1/p'; }
 pin=$(pin_of <mise.toml)
 [ -n "$pin" ] || { echo "ERROR: no OPENSHELL_CORE_REF in mise.toml" >&2; exit 1; }
-[[ "$pin" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ ]] || {
-  echo "ERROR: pin '$pin' is not a release tag; commit SHA pins are not supported by core-sync" >&2
+# A release tag, or a full commit SHA on core's main.
+if [[ "$pin" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-pre\.[0-9]+)?$ ]]; then
+  pin_input="tag=${pin}"
+elif [[ "$pin" =~ ^[0-9a-f]{40}$ ]]; then
+  pin_input="ref=${pin}"
+else
+  echo "ERROR: pin '$pin' is neither a release tag nor a full commit SHA" >&2
   exit 1
-}
+fi
 main_sha=$(git ls-remote "$core_url" refs/heads/main | cut -f1)
 [ -n "$main_sha" ] || { echo "ERROR: cannot resolve core main" >&2; exit 1; }
 
@@ -67,7 +72,7 @@ for f in $files; do path_args+=(--path "proto/$f"); done
 # Core's root buf.yaml has two modules; this config keeps only proto/, so
 # its imports resolve the same way buf export sees them.
 if breaking=$(buf breaking "${core_url}#ref=${main_sha}" \
-  --against "${core_url}#tag=${pin}" \
+  --against "${core_url}#${pin_input}" \
   --config '{"version":"v2","modules":[{"path":"proto"}],"breaking":{"use":["FILE"]}}' \
   "${path_args[@]}" 2>&1); then
   breaking_section="No breaking changes in $(echo $files | sed 's/ /, /g') between \`$pin\` and main."

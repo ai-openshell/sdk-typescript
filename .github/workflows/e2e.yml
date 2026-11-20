@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       core-version:
-        description: Core version, for example v0.1.9 (default the pin, OPENSHELL_CORE_REF in mise.toml)
+        description: Core version, for example v0.1.9 or a full core commit SHA (default the pin, OPENSHELL_CORE_REF in mise.toml)
         type: string
         default: ""
 

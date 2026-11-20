@@ -6,7 +6,7 @@
 # Usage: tag-release.sh [--dry-run] [--force] [--sha <commit>] [--since <commit>]
 #
 # Reads the pin, OPENSHELL_CORE_REF in mise.toml, at <commit> (default:
-# $GITHUB_SHA, else HEAD). A pre-release pin creates nothing. Without --force,
+# $GITHUB_SHA, else HEAD). A pre-release or commit SHA pin creates nothing. Without --force,
 # nothing is created either when the pin at <commit> equals the pin at --since
 # (default: the parent of <commit>) or there is no pin there, so ordinary
 # pushes to main and the push that adds mise.toml are no-ops.

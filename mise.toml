@@ -27,7 +27,8 @@ shellcheck = "0.11.0"
 zizmor = "1.32.0"
 
 [env]
-# The single core pin: a release tag.
+# The single core pin: a release tag, or a full commit SHA on core's main
+# that has dev images (see CONTRIBUTING.md). Only stable tags are released.
 OPENSHELL_CORE_REF = "v0.1.9"
 
 # --- Contract tasks ---------------------------------------------------------
