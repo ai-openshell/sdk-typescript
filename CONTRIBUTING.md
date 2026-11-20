@@ -70,6 +70,9 @@ The bindings in `src/gen/` are generated with protoc-gen-es from core's
 `proto/` at one core ref, `OPENSHELL_CORE_REF` in `mise.toml`, and committed.
 Don't edit generated files; change the pin and run `mise run proto:gen`.
 `mise run proto:check` fails when the committed bindings don't match the pin.
+The SDK compiles only the client-facing core protos: to add another one, list
+it in both the `--path` arguments of `proto:fetch` in `mise.toml` and `paths`
+in `buf.gen.yaml`.
 
 Building the package needs neither a core checkout nor network access because
 the generated bindings are committed. A change to the core pin makes the
@@ -115,6 +118,12 @@ If a run fails, re-run only its failed jobs. The tag step skips a tag or draft
 that exists already, and a version npm already has is not published again.
 To release a commit by hand, start the workflow on `main` with the commit's SHA
 (`gh workflow run release.yml -f sha=<commit>`).
+
+Core's last `@nvidia/openshell-sdk` release, `0.1.10` on GitHub Packages,
+contains no SDK code. It depends on `@ai-openshell/sdk@^0.1.0` and re-exports
+`.` and `./raw`, so its users receive every 0.1.x release from this repository.
+Core's release refuses to publish it until a matching 0.1.x is on npmjs.org.
+Keep both entry points, and keep breaking changes out of 0.1.x releases.
 
 To try unreleased changes, build and pack the package, then install the
 tarball in your project:
