@@ -123,7 +123,7 @@ run = """
 #!/usr/bin/env bash
 set -euo pipefail
 rm -rf proto
-npx --no-install buf export "https://github.com/NVIDIA/OpenShell.git#ref=${OPENSHELL_CORE_REF},depth=1,subdir=proto" \
+npx --no-install buf export "https://github.com/ai-openshell/openshell.git#ref=${OPENSHELL_CORE_REF},depth=1,subdir=proto" \
   --path openshell.proto --path sandbox.proto --path datamodel.proto --path options.proto \
   --output proto
 """

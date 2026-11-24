@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-light.png">
-  <img alt="OpenShell" src="https://raw.githubusercontent.com/NVIDIA/OpenShell/main/docs/brand/assets/openshell-banner-light.png" width="430">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ai-openshell/openshell/main/docs/brand/assets/openshell-banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ai-openshell/openshell/main/docs/brand/assets/openshell-banner-light.png">
+  <img alt="OpenShell" src="https://raw.githubusercontent.com/ai-openshell/openshell/main/docs/brand/assets/openshell-banner-light.png" width="430">
 </picture>
 
 # TypeScript SDK for OpenShell
@@ -10,12 +10,12 @@
 [![npm](https://img.shields.io/npm/v/@ai-openshell/sdk?logo=npm)](https://www.npmjs.com/package/@ai-openshell/sdk)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](https://docs.nvidia.com/openshell/latest/sdk/typescript)
 
-Use the TypeScript SDK to manage [OpenShell](https://github.com/NVIDIA/OpenShell) sandboxes from Node.js applications and automation. Create sandboxes, run and stream commands, forward ports, and manage templates, policy, and provider credentials through the gateway.
+Use the TypeScript SDK to manage [OpenShell](https://github.com/ai-openshell/openshell) sandboxes from Node.js applications and automation. Create sandboxes, run and stream commands, forward ports, and manage templates, policy, and provider credentials through the gateway.
 
 > [!WARNING]
 > **Do not run `npm install @ai-openshell/sdk` yet.** The first release of this package will be published on
 > Tuesday, November 24, 2026, so the install command fails until then. Until the release, consume the SDK from
-> the [OpenShell core repository](https://github.com/NVIDIA/OpenShell/tree/main/sdk/typescript).
+> the [OpenShell core repository](https://github.com/ai-openshell/openshell/tree/main/sdk/typescript).
 
 See the [TypeScript SDK documentation](https://docs.nvidia.com/openshell/latest/sdk/typescript) for connection options, authentication, and the raw client.
 
