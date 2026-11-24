@@ -17,7 +17,7 @@ import type { JsonObject, Message } from "@bufbuild/protobuf";
  * Describes the file sandbox.proto.
  */
 export const file_sandbox: GenFile = /*@__PURE__*/
-  fileDesc("Cg1zYW5kYm94LnByb3RvEhRvcGVuc2hlbGwuc2FuZGJveC52MSLDBAoNU2FuZGJveFBvbGljeRIPCgd2ZXJzaW9uGAEgASgNEjoKCmZpbGVzeXN0ZW0YAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5GaWxlc3lzdGVtUG9saWN5EjYKCGxhbmRsb2NrGAMgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTGFuZGxvY2tQb2xpY3kSNAoHcHJvY2VzcxgEIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlByb2Nlc3NQb2xpY3kSUgoQbmV0d29ya19wb2xpY2llcxgFIAMoCzI4Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kuTmV0d29ya1BvbGljaWVzRW50cnkSWAoTbmV0d29ya19taWRkbGV3YXJlcxgGIAMoCzI7Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kuTmV0d29ya01pZGRsZXdhcmVzRW50cnkaXwoUTmV0d29ya1BvbGljaWVzRW50cnkSCwoDa2V5GAEgASgJEjYKBXZhbHVlGAIgASgLMicub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya1BvbGljeVJ1bGU6AjgBGmgKF05ldHdvcmtNaWRkbGV3YXJlc0VudHJ5EgsKA2tleRgBIAEoCRI8CgV2YWx1ZRgCIAEoCzItLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtNaWRkbGV3YXJlQ29uZmlnOgI4ASJSChBGaWxlc3lzdGVtUG9saWN5EhcKD2luY2x1ZGVfd29ya2RpchgBIAEoCBIRCglyZWFkX29ubHkYAiADKAkSEgoKcmVhZF93cml0ZRgDIAMoCSInCg5MYW5kbG9ja1BvbGljeRIVCg1jb21wYXRpYmlsaXR5GAEgASgJIjoKDVByb2Nlc3NQb2xpY3kSEwoLcnVuX2FzX3VzZXIYASABKAkSFAoMcnVuX2FzX2dyb3VwGAIgASgJIpIBChFOZXR3b3JrUG9saWN5UnVsZRIMCgRuYW1lGAEgASgJEjgKCWVuZHBvaW50cxgCIAMoCzIlLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtFbmRwb2ludBI1CghiaW5hcmllcxgDIAMoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtCaW5hcnkiygEKF05ldHdvcmtNaWRkbGV3YXJlQ29uZmlnEgwKBG5hbWUYASABKAkSEgoKbWlkZGxld2FyZRgCIAEoCRInCgZjb25maWcYAyABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EhAKCG9uX2Vycm9yGAQgASgJEkMKCWVuZHBvaW50cxgFIAEoCzIwLm9wZW5zaGVsbC5zYW5kYm94LnYxLk1pZGRsZXdhcmVFbmRwb2ludFNlbGVjdG9yEg0KBW9yZGVyGAYgASgFIj4KGk1pZGRsZXdhcmVFbmRwb2ludFNlbGVjdG9yEg8KB2luY2x1ZGUYASADKAkSDwoHZXhjbHVkZRgCIAMoCSIsChhOZXR3b3JrQ3JlZGVudGlhbEJpbmRpbmcSEAoIcHJvdmlkZXIYASABKAki3wgKD05ldHdvcmtFbmRwb2ludBIMCgRob3N0GAEgASgJEgwKBHBvcnQYAiABKA0SEAoIcHJvdG9jb2wYAyABKAkSMQoDdGxzGAQgASgOMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya1Rsc01vZGUSQQoLZW5mb3JjZW1lbnQYBSABKA4yLC5vcGVuc2hlbGwuc2FuZGJveC52MS5OZXR3b3JrRW5mb3JjZW1lbnRNb2RlEjkKBmFjY2VzcxgGIAEoDjIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtBY2Nlc3NQcmVzZXQSKwoFcnVsZXMYByADKAsyHC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN1J1bGUSEwoLYWxsb3dlZF9pcHMYCCADKAkSDQoFcG9ydHMYCSADKA0SNAoKZGVueV9ydWxlcxgKIAMoCzIgLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3RGVueVJ1bGUSGwoTYWxsb3dfZW5jb2RlZF9zbGFzaBgLIAEoCBIZChFwZXJzaXN0ZWRfcXVlcmllcxgMIAEoCRJlChlncmFwaHFsX3BlcnNpc3RlZF9xdWVyaWVzGA0gAygLMkIub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya0VuZHBvaW50LkdyYXBocWxQZXJzaXN0ZWRRdWVyaWVzRW50cnkSHgoWZ3JhcGhxbF9tYXhfYm9keV9ieXRlcxgOIAEoDRIMCgRwYXRoGA8gASgJEiQKHHdlYnNvY2tldF9jcmVkZW50aWFsX3Jld3JpdGUYECABKAgSJwofcmVxdWVzdF9ib2R5X2NyZWRlbnRpYWxfcmV3cml0ZRgRIAEoCBIYChBhZHZpc29yX3Byb3Bvc2VkGBIgASgIEhoKEmNyZWRlbnRpYWxfc2lnbmluZxgTIAEoCRIXCg9zaWduaW5nX3NlcnZpY2UYFCABKAkSFgoOc2lnbmluZ19yZWdpb24YFSABKAkSHwoXanNvbl9ycGNfbWF4X2JvZHlfYnl0ZXMYFiABKA0SLQoDbWNwGBcgASgLMiAub3BlbnNoZWxsLnNhbmRib3gudjEuTWNwT3B0aW9ucxJKChJjcmVkZW50aWFsX2JpbmRpbmcYGCABKAsyLi5vcGVuc2hlbGwuc2FuZGJveC52MS5OZXR3b3JrQ3JlZGVudGlhbEJpbmRpbmcSJQodYWxsb3dfdW5pbnNwZWN0ZWRfY3JlZGVudGlhbHMYGSABKAgSHQoVcHJvdmlkZXJfY3JlZGVudGlhbGVkGBogASgIEhkKEXRva2VuX2dyYW50X293bmVyGBsgASgJGmYKHEdyYXBocWxQZXJzaXN0ZWRRdWVyaWVzRW50cnkSCwoDa2V5GAEgASgJEjUKBXZhbHVlGAIgASgLMiYub3BlbnNoZWxsLnNhbmRib3gudjEuR3JhcGhxbE9wZXJhdGlvbjoCOAEingEKCk1jcE9wdGlvbnMSHgoRc3RyaWN0X3Rvb2xfbmFtZXMYASABKAhIAIgBARIoChthbGxvd19hbGxfa25vd25fbWNwX21ldGhvZHMYAiABKAhIAYgBARIQCgh2ZXJzaW9ucxgDIAMoCUIUChJfc3RyaWN0X3Rvb2xfbmFtZXNCHgocX2FsbG93X2FsbF9rbm93bl9tY3BfbWV0aG9kcyJSChBHcmFwaHFsT3BlcmF0aW9uEhYKDm9wZXJhdGlvbl90eXBlGAEgASgJEhYKDm9wZXJhdGlvbl9uYW1lGAIgASgJEg4KBmZpZWxkcxgDIAMoCSKkAwoKTDdEZW55UnVsZRIOCgZtZXRob2QYASABKAkSDAoEcGF0aBgCIAEoCRIPCgdjb21tYW5kGAMgASgJEjoKBXF1ZXJ5GAQgAygLMisub3BlbnNoZWxsLnNhbmRib3gudjEuTDdEZW55UnVsZS5RdWVyeUVudHJ5EhYKDm9wZXJhdGlvbl90eXBlGAUgASgJEhYKDm9wZXJhdGlvbl9uYW1lGAYgASgJEg4KBmZpZWxkcxgHIAMoCRI8CgZwYXJhbXMYCSADKAsyLC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0RlbnlSdWxlLlBhcmFtc0VudHJ5GlIKClF1ZXJ5RW50cnkSCwoDa2V5GAEgASgJEjMKBXZhbHVlGAIgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTDdRdWVyeU1hdGNoZXI6AjgBGlMKC1BhcmFtc0VudHJ5EgsKA2tleRgBIAEoCRIzCgV2YWx1ZRgCIAEoCzIkLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3UXVlcnlNYXRjaGVyOgI4AUoECAgQCSI2CgZMN1J1bGUSLAoFYWxsb3cYASABKAsyHS5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0FsbG93IpsDCgdMN0FsbG93Eg4KBm1ldGhvZBgBIAEoCRIMCgRwYXRoGAIgASgJEg8KB2NvbW1hbmQYAyABKAkSNwoFcXVlcnkYBCADKAsyKC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0FsbG93LlF1ZXJ5RW50cnkSFgoOb3BlcmF0aW9uX3R5cGUYBSABKAkSFgoOb3BlcmF0aW9uX25hbWUYBiABKAkSDgoGZmllbGRzGAcgAygJEjkKBnBhcmFtcxgJIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3QWxsb3cuUGFyYW1zRW50cnkaUgoKUXVlcnlFbnRyeRILCgNrZXkYASABKAkSMwoFdmFsdWUYAiABKAsyJC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN1F1ZXJ5TWF0Y2hlcjoCOAEaUwoLUGFyYW1zRW50cnkSCwoDa2V5GAEgASgJEjMKBXZhbHVlGAIgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTDdRdWVyeU1hdGNoZXI6AjgBSgQICBAJIisKDkw3UXVlcnlNYXRjaGVyEgwKBGdsb2IYASABKAkSCwoDYW55GAIgAygJIiwKDU5ldHdvcmtCaW5hcnkSDAoEcGF0aBgBIAEoCUoECAIQA1IHaGFybmVzcyJrChdHZXRTYW5kYm94Q29uZmlnUmVxdWVzdBJCCg93b3Jrc3BhY2Vfc2NvcGUYAyABKAsyKS5vcGVuc2hlbGwuZGF0YW1vZGVsLnYxLldvcmtzcGFjZVNlbGVjdG9yEgwKBG5hbWUYASABKAkiGQoXR2V0R2F0ZXdheUNvbmZpZ1JlcXVlc3Qi2gEKGEdldEdhdGV3YXlDb25maWdSZXNwb25zZRJOCghzZXR0aW5ncxgBIAMoCzI8Lm9wZW5zaGVsbC5zYW5kYm94LnYxLkdldEdhdGV3YXlDb25maWdSZXNwb25zZS5TZXR0aW5nc0VudHJ5EhkKEXNldHRpbmdzX3JldmlzaW9uGAIgASgEGlMKDVNldHRpbmdzRW50cnkSCwoDa2V5GAEgASgJEjEKBXZhbHVlGAIgASgLMiIub3BlbnNoZWxsLnNhbmRib3gudjEuU2V0dGluZ1ZhbHVlOgI4ASJxCgxTZXR0aW5nVmFsdWUSFgoMc3RyaW5nX3ZhbHVlGAEgASgJSAASFAoKYm9vbF92YWx1ZRgCIAEoCEgAEhMKCWludF92YWx1ZRgDIAEoA0gAEhUKC2J5dGVzX3ZhbHVlGAQgASgMSABCBwoFdmFsdWUieAoQRWZmZWN0aXZlU2V0dGluZxIxCgV2YWx1ZRgBIAEoCzIiLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNldHRpbmdWYWx1ZRIxCgVzY29wZRgCIAEoDjIiLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNldHRpbmdTY29wZSLLBgoVU2FuZGJveENvbmZpZ1NuYXBzaG90EjMKBnBvbGljeRgBIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kSDwoHdmVyc2lvbhgCIAEoDRITCgtwb2xpY3lfaGFzaBgDIAEoCRJLCghzZXR0aW5ncxgEIAMoCzI5Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hDb25maWdTbmFwc2hvdC5TZXR0aW5nc0VudHJ5EhcKD2NvbmZpZ19yZXZpc2lvbhgFIAEoBBI5Cg1wb2xpY3lfc291cmNlGAYgASgOMiIub3BlbnNoZWxsLnNhbmRib3gudjEuUG9saWN5U291cmNlEh0KFWdsb2JhbF9wb2xpY3lfdmVyc2lvbhgHIAEoDRIdChVwcm92aWRlcl9lbnZfcmV2aXNpb24YCCABKAQSWQoec3VwZXJ2aXNvcl9taWRkbGV3YXJlX3NlcnZpY2VzGAkgAygLMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVTZXJ2aWNlEhEKCXdvcmtzcGFjZRgKIAEoCRImCh5wb2xpY3lfdmFsaWRhdGlvbl9mYWlsdXJlX21vZGUYCyABKAkSKAogZXh0ZW5zaW9uX2F1dGhlbnRpY2F0aW9uX2VuYWJsZWQYDCABKAgSHgoWY29uZmlndXJhdGlvbl9hZG1pdHRlZBgNIAEoCBIhChlwcm92aWRlcl9hdHRhY2htZW50X2Vwb2NoGA4gASgJEiEKGWNvbmZpZ3VyYXRpb25faW5zdGFuY2VfaWQYDyABKAkSGwoTY29uZmlndXJhdGlvbl9lcnJvchgQIAEoCRIZChFzZXR0aW5nc19yZXZpc2lvbhgRIAEoBBJBCg5zZXJ2aWNlX3JvdXRlcxgSIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hTZXJ2aWNlUm91dGUaVwoNU2V0dGluZ3NFbnRyeRILCgNrZXkYASABKAkSNQoFdmFsdWUYAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5FZmZlY3RpdmVTZXR0aW5nOgI4ASLRBgoYR2V0U2FuZGJveENvbmZpZ1Jlc3BvbnNlEjMKBnBvbGljeRgBIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kSDwoHdmVyc2lvbhgCIAEoDRITCgtwb2xpY3lfaGFzaBgDIAEoCRJOCghzZXR0aW5ncxgEIAMoCzI8Lm9wZW5zaGVsbC5zYW5kYm94LnYxLkdldFNhbmRib3hDb25maWdSZXNwb25zZS5TZXR0aW5nc0VudHJ5EhcKD2NvbmZpZ19yZXZpc2lvbhgFIAEoBBI5Cg1wb2xpY3lfc291cmNlGAYgASgOMiIub3BlbnNoZWxsLnNhbmRib3gudjEuUG9saWN5U291cmNlEh0KFWdsb2JhbF9wb2xpY3lfdmVyc2lvbhgHIAEoDRIdChVwcm92aWRlcl9lbnZfcmV2aXNpb24YCCABKAQSWQoec3VwZXJ2aXNvcl9taWRkbGV3YXJlX3NlcnZpY2VzGAkgAygLMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVTZXJ2aWNlEhEKCXdvcmtzcGFjZRgKIAEoCRImCh5wb2xpY3lfdmFsaWRhdGlvbl9mYWlsdXJlX21vZGUYCyABKAkSKAogZXh0ZW5zaW9uX2F1dGhlbnRpY2F0aW9uX2VuYWJsZWQYDCABKAgSIQoZcHJvdmlkZXJfYXR0YWNobWVudF9lcG9jaBgOIAEoCRIeChZjb25maWd1cmF0aW9uX2FkbWl0dGVkGA0gASgIEhsKE2NvbmZpZ3VyYXRpb25fZXJyb3IYECABKAkSIQoZY29uZmlndXJhdGlvbl9pbnN0YW5jZV9pZBgPIAEoCRIZChFzZXR0aW5nc19yZXZpc2lvbhgRIAEoBBJBCg5zZXJ2aWNlX3JvdXRlcxgSIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hTZXJ2aWNlUm91dGUaVwoNU2V0dGluZ3NFbnRyeRILCgNrZXkYASABKAkSNQoFdmFsdWUYAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5FZmZlY3RpdmVTZXR0aW5nOgI4ASKhAQoTU2FuZGJveFNlcnZpY2VSb3V0ZRITCgtlbmRwb2ludF9pZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC3RhcmdldF9wb3J0GAMgASgNEhoKEmF1dGhvcml6YXRpb25fbW9kZRgEIAEoBRIYChByZXNvdXJjZV92ZXJzaW9uGAUgASgEEhwKFGFwcGxpY2F0aW9uX2hvc3RuYW1lGAYgASgJIoMDChtTdXBlcnZpc29yTWlkZGxld2FyZVNlcnZpY2USDAoEbmFtZRgBIAEoCRIVCg1ncnBjX2VuZHBvaW50GAIgASgJEhkKEW1heF9wYXlsb2FkX2J5dGVzGAMgASgEEjIKD3JlcXVlc3RfdGltZW91dBhoIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvbhIXCg90bHNfY2FfY2VydF9wZW0YBSABKAwSEAoIYXVkaWVuY2UYBiABKAkSIAoYYWxsb3dfaW5zZWN1cmVfdHJhbnNwb3J0GAcgASgIEk8KDmJpbmRpbmdfcG9saWN5GAggASgOMjcub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nUG9saWN5EkMKCGJpbmRpbmdzGAkgAygOMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nSgQIBBAFUgd0aW1lb3V0KpcBCg5OZXR3b3JrVGxzTW9kZRIgChxORVRXT1JLX1RMU19NT0RFX1VOU1BFQ0lGSUVEEAASGQoVTkVUV09SS19UTFNfTU9ERV9TS0lQEAESIgoaTkVUV09SS19UTFNfTU9ERV9URVJNSU5BVEUQAhoCCAESJAocTkVUV09SS19UTFNfTU9ERV9QQVNTVEhST1VHSBADGgIIASqMAQoWTmV0d29ya0VuZm9yY2VtZW50TW9kZRIoCiRORVRXT1JLX0VORk9SQ0VNRU5UX01PREVfVU5TUEVDSUZJRUQQABIkCiBORVRXT1JLX0VORk9SQ0VNRU5UX01PREVfRU5GT1JDRRABEiIKHk5FVFdPUktfRU5GT1JDRU1FTlRfTU9ERV9BVURJVBACKqcBChNOZXR3b3JrQWNjZXNzUHJlc2V0EiUKIU5FVFdPUktfQUNDRVNTX1BSRVNFVF9VTlNQRUNJRklFRBAAEiMKH05FVFdPUktfQUNDRVNTX1BSRVNFVF9SRUFEX09OTFkQARIkCiBORVRXT1JLX0FDQ0VTU19QUkVTRVRfUkVBRF9XUklURRACEh4KGk5FVFdPUktfQUNDRVNTX1BSRVNFVF9GVUxMEAMqYgoMU2V0dGluZ1Njb3BlEh0KGVNFVFRJTkdfU0NPUEVfVU5TUEVDSUZJRUQQABIZChVTRVRUSU5HX1NDT1BFX1NBTkRCT1gQARIYChRTRVRUSU5HX1NDT1BFX0dMT0JBTBACKmIKDFBvbGljeVNvdXJjZRIdChlQT0xJQ1lfU09VUkNFX1VOU1BFQ0lGSUVEEAASGQoVUE9MSUNZX1NPVVJDRV9TQU5EQk9YEAESGAoUUE9MSUNZX1NPVVJDRV9HTE9CQUwQAirvAQohU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nUG9saWN5EjQKMFNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9VTlNQRUNJRklFRBAAEjAKLFNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9EWU5BTUlDEAESMgouU1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfUE9MSUNZX0FMTE9XTElTVBACEi4KKlNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9FWEFDVBADKo0CChtTdXBlcnZpc29yTWlkZGxld2FyZUJpbmRpbmcSLQopU1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfVU5TUEVDSUZJRUQQABI+CjpTVVBFUlZJU09SX01JRERMRVdBUkVfQklORElOR19IVFRQX1JFUVVFU1RfUFJFX0NSRURFTlRJQUxTEAESOgo2U1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfSFRUUF9SRVNQT05TRV9QUkVfUkVUVVJOEAISQwo/U1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfV0VCU09DS0VUX01FU1NBR0VfUFJFX0NSRURFTlRJQUxTEANiBnByb3RvMw", [file_google_protobuf_struct, file_google_protobuf_duration, file_datamodel]);
+  fileDesc("Cg1zYW5kYm94LnByb3RvEhRvcGVuc2hlbGwuc2FuZGJveC52MSKMBwoNU2FuZGJveFBvbGljeRIPCgd2ZXJzaW9uGAEgASgNEjoKCmZpbGVzeXN0ZW0YAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5GaWxlc3lzdGVtUG9saWN5EjYKCGxhbmRsb2NrGAMgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTGFuZGxvY2tQb2xpY3kSNAoHcHJvY2VzcxgEIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlByb2Nlc3NQb2xpY3kSUgoQbmV0d29ya19wb2xpY2llcxgFIAMoCzI4Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kuTmV0d29ya1BvbGljaWVzRW50cnkSWAoTbmV0d29ya19taWRkbGV3YXJlcxgGIAMoCzI7Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kuTmV0d29ya01pZGRsZXdhcmVzRW50cnkSNwoMY2VkYXJfcG9saWN5GAcgASgLMiEub3BlbnNoZWxsLnNhbmRib3gudjEuQ2VkYXJQb2xpY3kSYwoZcHJvdmlkZXJfY3JlZGVudGlhbF9ydWxlcxgIIAMoCzJALm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kuUHJvdmlkZXJDcmVkZW50aWFsUnVsZXNFbnRyeRJAChFlbmRwb2ludF9zZXR0aW5ncxgJIAMoCzIlLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtFbmRwb2ludBpfChROZXR3b3JrUG9saWNpZXNFbnRyeRILCgNrZXkYASABKAkSNgoFdmFsdWUYAiABKAsyJy5vcGVuc2hlbGwuc2FuZGJveC52MS5OZXR3b3JrUG9saWN5UnVsZToCOAEaaAoXTmV0d29ya01pZGRsZXdhcmVzRW50cnkSCwoDa2V5GAEgASgJEjwKBXZhbHVlGAIgASgLMi0ub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya01pZGRsZXdhcmVDb25maWc6AjgBGmcKHFByb3ZpZGVyQ3JlZGVudGlhbFJ1bGVzRW50cnkSCwoDa2V5GAEgASgJEjYKBXZhbHVlGAIgASgLMicub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya1BvbGljeVJ1bGU6AjgBIh0KC0NlZGFyUG9saWN5Eg4KBnNvdXJjZRgBIAEoCSJSChBGaWxlc3lzdGVtUG9saWN5EhcKD2luY2x1ZGVfd29ya2RpchgBIAEoCBIRCglyZWFkX29ubHkYAiADKAkSEgoKcmVhZF93cml0ZRgDIAMoCSInCg5MYW5kbG9ja1BvbGljeRIVCg1jb21wYXRpYmlsaXR5GAEgASgJIjoKDVByb2Nlc3NQb2xpY3kSEwoLcnVuX2FzX3VzZXIYASABKAkSFAoMcnVuX2FzX2dyb3VwGAIgASgJIpIBChFOZXR3b3JrUG9saWN5UnVsZRIMCgRuYW1lGAEgASgJEjgKCWVuZHBvaW50cxgCIAMoCzIlLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtFbmRwb2ludBI1CghiaW5hcmllcxgDIAMoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtCaW5hcnkiygEKF05ldHdvcmtNaWRkbGV3YXJlQ29uZmlnEgwKBG5hbWUYASABKAkSEgoKbWlkZGxld2FyZRgCIAEoCRInCgZjb25maWcYAyABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0EhAKCG9uX2Vycm9yGAQgASgJEkMKCWVuZHBvaW50cxgFIAEoCzIwLm9wZW5zaGVsbC5zYW5kYm94LnYxLk1pZGRsZXdhcmVFbmRwb2ludFNlbGVjdG9yEg0KBW9yZGVyGAYgASgFIj4KGk1pZGRsZXdhcmVFbmRwb2ludFNlbGVjdG9yEg8KB2luY2x1ZGUYASADKAkSDwoHZXhjbHVkZRgCIAMoCSIsChhOZXR3b3JrQ3JlZGVudGlhbEJpbmRpbmcSEAoIcHJvdmlkZXIYASABKAki3wgKD05ldHdvcmtFbmRwb2ludBIMCgRob3N0GAEgASgJEgwKBHBvcnQYAiABKA0SEAoIcHJvdG9jb2wYAyABKAkSMQoDdGxzGAQgASgOMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya1Rsc01vZGUSQQoLZW5mb3JjZW1lbnQYBSABKA4yLC5vcGVuc2hlbGwuc2FuZGJveC52MS5OZXR3b3JrRW5mb3JjZW1lbnRNb2RlEjkKBmFjY2VzcxgGIAEoDjIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLk5ldHdvcmtBY2Nlc3NQcmVzZXQSKwoFcnVsZXMYByADKAsyHC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN1J1bGUSEwoLYWxsb3dlZF9pcHMYCCADKAkSDQoFcG9ydHMYCSADKA0SNAoKZGVueV9ydWxlcxgKIAMoCzIgLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3RGVueVJ1bGUSGwoTYWxsb3dfZW5jb2RlZF9zbGFzaBgLIAEoCBIZChFwZXJzaXN0ZWRfcXVlcmllcxgMIAEoCRJlChlncmFwaHFsX3BlcnNpc3RlZF9xdWVyaWVzGA0gAygLMkIub3BlbnNoZWxsLnNhbmRib3gudjEuTmV0d29ya0VuZHBvaW50LkdyYXBocWxQZXJzaXN0ZWRRdWVyaWVzRW50cnkSHgoWZ3JhcGhxbF9tYXhfYm9keV9ieXRlcxgOIAEoDRIMCgRwYXRoGA8gASgJEiQKHHdlYnNvY2tldF9jcmVkZW50aWFsX3Jld3JpdGUYECABKAgSJwofcmVxdWVzdF9ib2R5X2NyZWRlbnRpYWxfcmV3cml0ZRgRIAEoCBIYChBhZHZpc29yX3Byb3Bvc2VkGBIgASgIEhoKEmNyZWRlbnRpYWxfc2lnbmluZxgTIAEoCRIXCg9zaWduaW5nX3NlcnZpY2UYFCABKAkSFgoOc2lnbmluZ19yZWdpb24YFSABKAkSHwoXanNvbl9ycGNfbWF4X2JvZHlfYnl0ZXMYFiABKA0SLQoDbWNwGBcgASgLMiAub3BlbnNoZWxsLnNhbmRib3gudjEuTWNwT3B0aW9ucxJKChJjcmVkZW50aWFsX2JpbmRpbmcYGCABKAsyLi5vcGVuc2hlbGwuc2FuZGJveC52MS5OZXR3b3JrQ3JlZGVudGlhbEJpbmRpbmcSJQodYWxsb3dfdW5pbnNwZWN0ZWRfY3JlZGVudGlhbHMYGSABKAgSHQoVcHJvdmlkZXJfY3JlZGVudGlhbGVkGBogASgIEhkKEXRva2VuX2dyYW50X293bmVyGBsgASgJGmYKHEdyYXBocWxQZXJzaXN0ZWRRdWVyaWVzRW50cnkSCwoDa2V5GAEgASgJEjUKBXZhbHVlGAIgASgLMiYub3BlbnNoZWxsLnNhbmRib3gudjEuR3JhcGhxbE9wZXJhdGlvbjoCOAEingEKCk1jcE9wdGlvbnMSHgoRc3RyaWN0X3Rvb2xfbmFtZXMYASABKAhIAIgBARIoChthbGxvd19hbGxfa25vd25fbWNwX21ldGhvZHMYAiABKAhIAYgBARIQCgh2ZXJzaW9ucxgDIAMoCUIUChJfc3RyaWN0X3Rvb2xfbmFtZXNCHgocX2FsbG93X2FsbF9rbm93bl9tY3BfbWV0aG9kcyJSChBHcmFwaHFsT3BlcmF0aW9uEhYKDm9wZXJhdGlvbl90eXBlGAEgASgJEhYKDm9wZXJhdGlvbl9uYW1lGAIgASgJEg4KBmZpZWxkcxgDIAMoCSKkAwoKTDdEZW55UnVsZRIOCgZtZXRob2QYASABKAkSDAoEcGF0aBgCIAEoCRIPCgdjb21tYW5kGAMgASgJEjoKBXF1ZXJ5GAQgAygLMisub3BlbnNoZWxsLnNhbmRib3gudjEuTDdEZW55UnVsZS5RdWVyeUVudHJ5EhYKDm9wZXJhdGlvbl90eXBlGAUgASgJEhYKDm9wZXJhdGlvbl9uYW1lGAYgASgJEg4KBmZpZWxkcxgHIAMoCRI8CgZwYXJhbXMYCSADKAsyLC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0RlbnlSdWxlLlBhcmFtc0VudHJ5GlIKClF1ZXJ5RW50cnkSCwoDa2V5GAEgASgJEjMKBXZhbHVlGAIgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTDdRdWVyeU1hdGNoZXI6AjgBGlMKC1BhcmFtc0VudHJ5EgsKA2tleRgBIAEoCRIzCgV2YWx1ZRgCIAEoCzIkLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3UXVlcnlNYXRjaGVyOgI4AUoECAgQCSI2CgZMN1J1bGUSLAoFYWxsb3cYASABKAsyHS5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0FsbG93IpsDCgdMN0FsbG93Eg4KBm1ldGhvZBgBIAEoCRIMCgRwYXRoGAIgASgJEg8KB2NvbW1hbmQYAyABKAkSNwoFcXVlcnkYBCADKAsyKC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN0FsbG93LlF1ZXJ5RW50cnkSFgoOb3BlcmF0aW9uX3R5cGUYBSABKAkSFgoOb3BlcmF0aW9uX25hbWUYBiABKAkSDgoGZmllbGRzGAcgAygJEjkKBnBhcmFtcxgJIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLkw3QWxsb3cuUGFyYW1zRW50cnkaUgoKUXVlcnlFbnRyeRILCgNrZXkYASABKAkSMwoFdmFsdWUYAiABKAsyJC5vcGVuc2hlbGwuc2FuZGJveC52MS5MN1F1ZXJ5TWF0Y2hlcjoCOAEaUwoLUGFyYW1zRW50cnkSCwoDa2V5GAEgASgJEjMKBXZhbHVlGAIgASgLMiQub3BlbnNoZWxsLnNhbmRib3gudjEuTDdRdWVyeU1hdGNoZXI6AjgBSgQICBAJIisKDkw3UXVlcnlNYXRjaGVyEgwKBGdsb2IYASABKAkSCwoDYW55GAIgAygJIiwKDU5ldHdvcmtCaW5hcnkSDAoEcGF0aBgBIAEoCUoECAIQA1IHaGFybmVzcyKLAQoXR2V0U2FuZGJveENvbmZpZ1JlcXVlc3QSQgoPd29ya3NwYWNlX3Njb3BlGAMgASgLMikub3BlbnNoZWxsLmRhdGFtb2RlbC52MS5Xb3Jrc3BhY2VTZWxlY3RvchIMCgRuYW1lGAEgASgJEh4KFnN1cHBvcnRlZF9jYXBhYmlsaXRpZXMYBSADKAkiGQoXR2V0R2F0ZXdheUNvbmZpZ1JlcXVlc3Qi2gEKGEdldEdhdGV3YXlDb25maWdSZXNwb25zZRJOCghzZXR0aW5ncxgBIAMoCzI8Lm9wZW5zaGVsbC5zYW5kYm94LnYxLkdldEdhdGV3YXlDb25maWdSZXNwb25zZS5TZXR0aW5nc0VudHJ5EhkKEXNldHRpbmdzX3JldmlzaW9uGAIgASgEGlMKDVNldHRpbmdzRW50cnkSCwoDa2V5GAEgASgJEjEKBXZhbHVlGAIgASgLMiIub3BlbnNoZWxsLnNhbmRib3gudjEuU2V0dGluZ1ZhbHVlOgI4ASJxCgxTZXR0aW5nVmFsdWUSFgoMc3RyaW5nX3ZhbHVlGAEgASgJSAASFAoKYm9vbF92YWx1ZRgCIAEoCEgAEhMKCWludF92YWx1ZRgDIAEoA0gAEhUKC2J5dGVzX3ZhbHVlGAQgASgMSABCBwoFdmFsdWUieAoQRWZmZWN0aXZlU2V0dGluZxIxCgV2YWx1ZRgBIAEoCzIiLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNldHRpbmdWYWx1ZRIxCgVzY29wZRgCIAEoDjIiLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNldHRpbmdTY29wZSLLBgoVU2FuZGJveENvbmZpZ1NuYXBzaG90EjMKBnBvbGljeRgBIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kSDwoHdmVyc2lvbhgCIAEoDRITCgtwb2xpY3lfaGFzaBgDIAEoCRJLCghzZXR0aW5ncxgEIAMoCzI5Lm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hDb25maWdTbmFwc2hvdC5TZXR0aW5nc0VudHJ5EhcKD2NvbmZpZ19yZXZpc2lvbhgFIAEoBBI5Cg1wb2xpY3lfc291cmNlGAYgASgOMiIub3BlbnNoZWxsLnNhbmRib3gudjEuUG9saWN5U291cmNlEh0KFWdsb2JhbF9wb2xpY3lfdmVyc2lvbhgHIAEoDRIdChVwcm92aWRlcl9lbnZfcmV2aXNpb24YCCABKAQSWQoec3VwZXJ2aXNvcl9taWRkbGV3YXJlX3NlcnZpY2VzGAkgAygLMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVTZXJ2aWNlEhEKCXdvcmtzcGFjZRgKIAEoCRImCh5wb2xpY3lfdmFsaWRhdGlvbl9mYWlsdXJlX21vZGUYCyABKAkSKAogZXh0ZW5zaW9uX2F1dGhlbnRpY2F0aW9uX2VuYWJsZWQYDCABKAgSHgoWY29uZmlndXJhdGlvbl9hZG1pdHRlZBgNIAEoCBIhChlwcm92aWRlcl9hdHRhY2htZW50X2Vwb2NoGA4gASgJEiEKGWNvbmZpZ3VyYXRpb25faW5zdGFuY2VfaWQYDyABKAkSGwoTY29uZmlndXJhdGlvbl9lcnJvchgQIAEoCRIZChFzZXR0aW5nc19yZXZpc2lvbhgRIAEoBBJBCg5zZXJ2aWNlX3JvdXRlcxgSIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hTZXJ2aWNlUm91dGUaVwoNU2V0dGluZ3NFbnRyeRILCgNrZXkYASABKAkSNQoFdmFsdWUYAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5FZmZlY3RpdmVTZXR0aW5nOgI4ASLRBgoYR2V0U2FuZGJveENvbmZpZ1Jlc3BvbnNlEjMKBnBvbGljeRgBIAEoCzIjLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hQb2xpY3kSDwoHdmVyc2lvbhgCIAEoDRITCgtwb2xpY3lfaGFzaBgDIAEoCRJOCghzZXR0aW5ncxgEIAMoCzI8Lm9wZW5zaGVsbC5zYW5kYm94LnYxLkdldFNhbmRib3hDb25maWdSZXNwb25zZS5TZXR0aW5nc0VudHJ5EhcKD2NvbmZpZ19yZXZpc2lvbhgFIAEoBBI5Cg1wb2xpY3lfc291cmNlGAYgASgOMiIub3BlbnNoZWxsLnNhbmRib3gudjEuUG9saWN5U291cmNlEh0KFWdsb2JhbF9wb2xpY3lfdmVyc2lvbhgHIAEoDRIdChVwcm92aWRlcl9lbnZfcmV2aXNpb24YCCABKAQSWQoec3VwZXJ2aXNvcl9taWRkbGV3YXJlX3NlcnZpY2VzGAkgAygLMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVTZXJ2aWNlEhEKCXdvcmtzcGFjZRgKIAEoCRImCh5wb2xpY3lfdmFsaWRhdGlvbl9mYWlsdXJlX21vZGUYCyABKAkSKAogZXh0ZW5zaW9uX2F1dGhlbnRpY2F0aW9uX2VuYWJsZWQYDCABKAgSIQoZcHJvdmlkZXJfYXR0YWNobWVudF9lcG9jaBgOIAEoCRIeChZjb25maWd1cmF0aW9uX2FkbWl0dGVkGA0gASgIEhsKE2NvbmZpZ3VyYXRpb25fZXJyb3IYECABKAkSIQoZY29uZmlndXJhdGlvbl9pbnN0YW5jZV9pZBgPIAEoCRIZChFzZXR0aW5nc19yZXZpc2lvbhgRIAEoBBJBCg5zZXJ2aWNlX3JvdXRlcxgSIAMoCzIpLm9wZW5zaGVsbC5zYW5kYm94LnYxLlNhbmRib3hTZXJ2aWNlUm91dGUaVwoNU2V0dGluZ3NFbnRyeRILCgNrZXkYASABKAkSNQoFdmFsdWUYAiABKAsyJi5vcGVuc2hlbGwuc2FuZGJveC52MS5FZmZlY3RpdmVTZXR0aW5nOgI4ASKhAQoTU2FuZGJveFNlcnZpY2VSb3V0ZRITCgtlbmRwb2ludF9pZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC3RhcmdldF9wb3J0GAMgASgNEhoKEmF1dGhvcml6YXRpb25fbW9kZRgEIAEoBRIYChByZXNvdXJjZV92ZXJzaW9uGAUgASgEEhwKFGFwcGxpY2F0aW9uX2hvc3RuYW1lGAYgASgJIoMDChtTdXBlcnZpc29yTWlkZGxld2FyZVNlcnZpY2USDAoEbmFtZRgBIAEoCRIVCg1ncnBjX2VuZHBvaW50GAIgASgJEhkKEW1heF9wYXlsb2FkX2J5dGVzGAMgASgEEjIKD3JlcXVlc3RfdGltZW91dBhoIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvbhIXCg90bHNfY2FfY2VydF9wZW0YBSABKAwSEAoIYXVkaWVuY2UYBiABKAkSIAoYYWxsb3dfaW5zZWN1cmVfdHJhbnNwb3J0GAcgASgIEk8KDmJpbmRpbmdfcG9saWN5GAggASgOMjcub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nUG9saWN5EkMKCGJpbmRpbmdzGAkgAygOMjEub3BlbnNoZWxsLnNhbmRib3gudjEuU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nSgQIBBAFUgd0aW1lb3V0KpcBCg5OZXR3b3JrVGxzTW9kZRIgChxORVRXT1JLX1RMU19NT0RFX1VOU1BFQ0lGSUVEEAASGQoVTkVUV09SS19UTFNfTU9ERV9TS0lQEAESIgoaTkVUV09SS19UTFNfTU9ERV9URVJNSU5BVEUQAhoCCAESJAocTkVUV09SS19UTFNfTU9ERV9QQVNTVEhST1VHSBADGgIIASqMAQoWTmV0d29ya0VuZm9yY2VtZW50TW9kZRIoCiRORVRXT1JLX0VORk9SQ0VNRU5UX01PREVfVU5TUEVDSUZJRUQQABIkCiBORVRXT1JLX0VORk9SQ0VNRU5UX01PREVfRU5GT1JDRRABEiIKHk5FVFdPUktfRU5GT1JDRU1FTlRfTU9ERV9BVURJVBACKqcBChNOZXR3b3JrQWNjZXNzUHJlc2V0EiUKIU5FVFdPUktfQUNDRVNTX1BSRVNFVF9VTlNQRUNJRklFRBAAEiMKH05FVFdPUktfQUNDRVNTX1BSRVNFVF9SRUFEX09OTFkQARIkCiBORVRXT1JLX0FDQ0VTU19QUkVTRVRfUkVBRF9XUklURRACEh4KGk5FVFdPUktfQUNDRVNTX1BSRVNFVF9GVUxMEAMqYgoMU2V0dGluZ1Njb3BlEh0KGVNFVFRJTkdfU0NPUEVfVU5TUEVDSUZJRUQQABIZChVTRVRUSU5HX1NDT1BFX1NBTkRCT1gQARIYChRTRVRUSU5HX1NDT1BFX0dMT0JBTBACKmIKDFBvbGljeVNvdXJjZRIdChlQT0xJQ1lfU09VUkNFX1VOU1BFQ0lGSUVEEAASGQoVUE9MSUNZX1NPVVJDRV9TQU5EQk9YEAESGAoUUE9MSUNZX1NPVVJDRV9HTE9CQUwQAirvAQohU3VwZXJ2aXNvck1pZGRsZXdhcmVCaW5kaW5nUG9saWN5EjQKMFNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9VTlNQRUNJRklFRBAAEjAKLFNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9EWU5BTUlDEAESMgouU1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfUE9MSUNZX0FMTE9XTElTVBACEi4KKlNVUEVSVklTT1JfTUlERExFV0FSRV9CSU5ESU5HX1BPTElDWV9FWEFDVBADKo0CChtTdXBlcnZpc29yTWlkZGxld2FyZUJpbmRpbmcSLQopU1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfVU5TUEVDSUZJRUQQABI+CjpTVVBFUlZJU09SX01JRERMRVdBUkVfQklORElOR19IVFRQX1JFUVVFU1RfUFJFX0NSRURFTlRJQUxTEAESOgo2U1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfSFRUUF9SRVNQT05TRV9QUkVfUkVUVVJOEAISQwo/U1VQRVJWSVNPUl9NSURETEVXQVJFX0JJTkRJTkdfV0VCU09DS0VUX01FU1NBR0VfUFJFX0NSRURFTlRJQUxTEANiBnByb3RvMw", [file_google_protobuf_struct, file_google_protobuf_duration, file_datamodel]);
 
 /**
  * Sandbox security policy configuration.
@@ -68,6 +68,50 @@ export type SandboxPolicy = Message<"openshell.sandbox.v1.SandboxPolicy"> & {
    * @generated from field: map<string, openshell.sandbox.v1.NetworkMiddlewareConfig> network_middlewares = 6;
    */
   networkMiddlewares: { [key: string]: NetworkMiddlewareConfig };
+
+  /**
+   * Raw Cedar policy source (.cedar syntax, against the canonical schema
+   * published by the openshell-policy-cedar-schema crate). When present,
+   * this sandbox's network, per-request, and filesystem decisions come
+   * entirely from Cedar: Landlock grants are derived from the Cedar text
+   * (plus the supervisor's baseline paths), and `filesystem` is not used.
+   * `landlock.compatibility`, `process`, and `network_middlewares` are
+   * still honored through the policy API. The CLI accepts Cedar source only.
+   * Rejected at validation if
+   * `network_policies` or `filesystem` paths are also set.
+   * A sandbox cannot switch between Cedar and YAML after creation, and
+   * global policies must be YAML.
+   *
+   * @generated from field: openshell.sandbox.v1.CedarPolicy cedar_policy = 7;
+   */
+  cedarPolicy?: CedarPolicy | undefined;
+
+  /**
+   * Gateway-managed, for Cedar policies only: the network rules of the
+   * sandbox's attached providers, keyed like provider-composed
+   * `network_policies` entries. They supply endpoint settings for credential
+   * injection (credential markers, rewrite options, request signing) on
+   * connections the Cedar policy allows, and never grant access themselves.
+   * Rejected in user-submitted policies.
+   *
+   * @generated from field: map<string, openshell.sandbox.v1.NetworkPolicyRule> provider_credential_rules = 8;
+   */
+  providerCredentialRules: { [key: string]: NetworkPolicyRule };
+
+  /**
+   * For Cedar policies only: endpoint settings that are configuration, not
+   * access control, supplied through the policy API. Each entry selects
+   * endpoints by `host` (exact or glob),
+   * `port`/`ports`, and an optional `path`, and may set only `tls`,
+   * `allow_encoded_slash`, `json_rpc_max_body_bytes`,
+   * `graphql_max_body_bytes`, `mcp` (`versions`, `strict_tool_names`),
+   * `persisted_queries`, and `graphql_persisted_queries`. The Cedar policy
+   * decides access and inspection; these settings apply to the connections
+   * and requests it inspects. Rejected when `cedar_policy` is absent.
+   *
+   * @generated from field: repeated openshell.sandbox.v1.NetworkEndpoint endpoint_settings = 9;
+   */
+  endpointSettings: NetworkEndpoint[];
 };
 
 /**
@@ -76,6 +120,25 @@ export type SandboxPolicy = Message<"openshell.sandbox.v1.SandboxPolicy"> & {
  */
 export const SandboxPolicySchema: GenMessage<SandboxPolicy> = /*@__PURE__*/
   messageDesc(file_sandbox, 0);
+
+/**
+ * Cedar-authored policy. Message presence selects Cedar even for empty source.
+ *
+ * @generated from message openshell.sandbox.v1.CedarPolicy
+ */
+export type CedarPolicy = Message<"openshell.sandbox.v1.CedarPolicy"> & {
+  /**
+   * @generated from field: string source = 1;
+   */
+  source: string;
+};
+
+/**
+ * Describes the message openshell.sandbox.v1.CedarPolicy.
+ * Use `create(CedarPolicySchema)` to create a new message.
+ */
+export const CedarPolicySchema: GenMessage<CedarPolicy> = /*@__PURE__*/
+  messageDesc(file_sandbox, 1);
 
 /**
  * Filesystem access policy.
@@ -110,7 +173,7 @@ export type FilesystemPolicy = Message<"openshell.sandbox.v1.FilesystemPolicy"> 
  * Use `create(FilesystemPolicySchema)` to create a new message.
  */
 export const FilesystemPolicySchema: GenMessage<FilesystemPolicy> = /*@__PURE__*/
-  messageDesc(file_sandbox, 1);
+  messageDesc(file_sandbox, 2);
 
 /**
  * Landlock policy configuration.
@@ -131,7 +194,7 @@ export type LandlockPolicy = Message<"openshell.sandbox.v1.LandlockPolicy"> & {
  * Use `create(LandlockPolicySchema)` to create a new message.
  */
 export const LandlockPolicySchema: GenMessage<LandlockPolicy> = /*@__PURE__*/
-  messageDesc(file_sandbox, 2);
+  messageDesc(file_sandbox, 3);
 
 /**
  * Process execution policy.
@@ -159,7 +222,7 @@ export type ProcessPolicy = Message<"openshell.sandbox.v1.ProcessPolicy"> & {
  * Use `create(ProcessPolicySchema)` to create a new message.
  */
 export const ProcessPolicySchema: GenMessage<ProcessPolicy> = /*@__PURE__*/
-  messageDesc(file_sandbox, 3);
+  messageDesc(file_sandbox, 4);
 
 /**
  * A named network access policy rule.
@@ -194,7 +257,7 @@ export type NetworkPolicyRule = Message<"openshell.sandbox.v1.NetworkPolicyRule"
  * Use `create(NetworkPolicyRuleSchema)` to create a new message.
  */
 export const NetworkPolicyRuleSchema: GenMessage<NetworkPolicyRule> = /*@__PURE__*/
-  messageDesc(file_sandbox, 4);
+  messageDesc(file_sandbox, 5);
 
 /**
  * A reusable middleware config selected for admitted egress by host.
@@ -250,7 +313,7 @@ export type NetworkMiddlewareConfig = Message<"openshell.sandbox.v1.NetworkMiddl
  * Use `create(NetworkMiddlewareConfigSchema)` to create a new message.
  */
 export const NetworkMiddlewareConfigSchema: GenMessage<NetworkMiddlewareConfig> = /*@__PURE__*/
-  messageDesc(file_sandbox, 5);
+  messageDesc(file_sandbox, 6);
 
 /**
  * Host selector controlling which admitted destinations use a middleware config.
@@ -280,7 +343,7 @@ export type MiddlewareEndpointSelector = Message<"openshell.sandbox.v1.Middlewar
  * Use `create(MiddlewareEndpointSelectorSchema)` to create a new message.
  */
 export const MiddlewareEndpointSelectorSchema: GenMessage<MiddlewareEndpointSelector> = /*@__PURE__*/
-  messageDesc(file_sandbox, 6);
+  messageDesc(file_sandbox, 7);
 
 /**
  * Binds a policy endpoint to static credentials from a sandbox provider.
@@ -302,7 +365,7 @@ export type NetworkCredentialBinding = Message<"openshell.sandbox.v1.NetworkCred
  * Use `create(NetworkCredentialBindingSchema)` to create a new message.
  */
 export const NetworkCredentialBindingSchema: GenMessage<NetworkCredentialBinding> = /*@__PURE__*/
-  messageDesc(file_sandbox, 7);
+  messageDesc(file_sandbox, 8);
 
 /**
  * A network endpoint (host + port) with optional L7 inspection config.
@@ -547,7 +610,7 @@ export type NetworkEndpoint = Message<"openshell.sandbox.v1.NetworkEndpoint"> & 
  * Use `create(NetworkEndpointSchema)` to create a new message.
  */
 export const NetworkEndpointSchema: GenMessage<NetworkEndpoint> = /*@__PURE__*/
-  messageDesc(file_sandbox, 8);
+  messageDesc(file_sandbox, 9);
 
 /**
  * MCP options are grouped so MCP-specific policy can grow without adding more
@@ -608,7 +671,7 @@ export type McpOptions = Message<"openshell.sandbox.v1.McpOptions"> & {
  * Use `create(McpOptionsSchema)` to create a new message.
  */
 export const McpOptionsSchema: GenMessage<McpOptions> = /*@__PURE__*/
-  messageDesc(file_sandbox, 9);
+  messageDesc(file_sandbox, 10);
 
 /**
  * Trusted GraphQL operation classification.
@@ -643,7 +706,7 @@ export type GraphqlOperation = Message<"openshell.sandbox.v1.GraphqlOperation"> 
  * Use `create(GraphqlOperationSchema)` to create a new message.
  */
 export const GraphqlOperationSchema: GenMessage<GraphqlOperation> = /*@__PURE__*/
-  messageDesc(file_sandbox, 10);
+  messageDesc(file_sandbox, 11);
 
 /**
  * An L7 deny rule that blocks specific requests.
@@ -719,7 +782,7 @@ export type L7DenyRule = Message<"openshell.sandbox.v1.L7DenyRule"> & {
  * Use `create(L7DenyRuleSchema)` to create a new message.
  */
 export const L7DenyRuleSchema: GenMessage<L7DenyRule> = /*@__PURE__*/
-  messageDesc(file_sandbox, 11);
+  messageDesc(file_sandbox, 12);
 
 /**
  * An L7 policy rule (allow-only).
@@ -738,7 +801,7 @@ export type L7Rule = Message<"openshell.sandbox.v1.L7Rule"> & {
  * Use `create(L7RuleSchema)` to create a new message.
  */
 export const L7RuleSchema: GenMessage<L7Rule> = /*@__PURE__*/
-  messageDesc(file_sandbox, 12);
+  messageDesc(file_sandbox, 13);
 
 /**
  * Allowed action definition for L7 rules.
@@ -813,7 +876,7 @@ export type L7Allow = Message<"openshell.sandbox.v1.L7Allow"> & {
  * Use `create(L7AllowSchema)` to create a new message.
  */
 export const L7AllowSchema: GenMessage<L7Allow> = /*@__PURE__*/
-  messageDesc(file_sandbox, 13);
+  messageDesc(file_sandbox, 14);
 
 /**
  * Query value matcher for one query parameter key.
@@ -841,7 +904,7 @@ export type L7QueryMatcher = Message<"openshell.sandbox.v1.L7QueryMatcher"> & {
  * Use `create(L7QueryMatcherSchema)` to create a new message.
  */
 export const L7QueryMatcherSchema: GenMessage<L7QueryMatcher> = /*@__PURE__*/
-  messageDesc(file_sandbox, 14);
+  messageDesc(file_sandbox, 15);
 
 /**
  * A binary identity for network policy matching.
@@ -860,7 +923,7 @@ export type NetworkBinary = Message<"openshell.sandbox.v1.NetworkBinary"> & {
  * Use `create(NetworkBinarySchema)` to create a new message.
  */
 export const NetworkBinarySchema: GenMessage<NetworkBinary> = /*@__PURE__*/
-  messageDesc(file_sandbox, 15);
+  messageDesc(file_sandbox, 16);
 
 /**
  * Request to get sandbox settings by sandbox name.
@@ -879,6 +942,13 @@ export type GetSandboxConfigRequest = Message<"openshell.sandbox.v1.GetSandboxCo
    * @generated from field: string name = 1;
    */
   name: string;
+
+  /**
+   * Policy capabilities of sandbox-authenticated callers receiving config.
+   *
+   * @generated from field: repeated string supported_capabilities = 5;
+   */
+  supportedCapabilities: string[];
 };
 
 /**
@@ -886,7 +956,7 @@ export type GetSandboxConfigRequest = Message<"openshell.sandbox.v1.GetSandboxCo
  * Use `create(GetSandboxConfigRequestSchema)` to create a new message.
  */
 export const GetSandboxConfigRequestSchema: GenMessage<GetSandboxConfigRequest> = /*@__PURE__*/
-  messageDesc(file_sandbox, 16);
+  messageDesc(file_sandbox, 17);
 
 /**
  * Request to get gateway-global settings.
@@ -901,7 +971,7 @@ export type GetGatewayConfigRequest = Message<"openshell.sandbox.v1.GetGatewayCo
  * Use `create(GetGatewayConfigRequestSchema)` to create a new message.
  */
 export const GetGatewayConfigRequestSchema: GenMessage<GetGatewayConfigRequest> = /*@__PURE__*/
-  messageDesc(file_sandbox, 17);
+  messageDesc(file_sandbox, 18);
 
 /**
  * Response containing gateway-global settings.
@@ -930,7 +1000,7 @@ export type GetGatewayConfigResponse = Message<"openshell.sandbox.v1.GetGatewayC
  * Use `create(GetGatewayConfigResponseSchema)` to create a new message.
  */
 export const GetGatewayConfigResponseSchema: GenMessage<GetGatewayConfigResponse> = /*@__PURE__*/
-  messageDesc(file_sandbox, 18);
+  messageDesc(file_sandbox, 19);
 
 /**
  * Type-aware setting value for sandbox/gateway settings.
@@ -973,7 +1043,7 @@ export type SettingValue = Message<"openshell.sandbox.v1.SettingValue"> & {
  * Use `create(SettingValueSchema)` to create a new message.
  */
 export const SettingValueSchema: GenMessage<SettingValue> = /*@__PURE__*/
-  messageDesc(file_sandbox, 19);
+  messageDesc(file_sandbox, 20);
 
 /**
  * Effective setting value and the scope it was resolved from.
@@ -997,7 +1067,7 @@ export type EffectiveSetting = Message<"openshell.sandbox.v1.EffectiveSetting"> 
  * Use `create(EffectiveSettingSchema)` to create a new message.
  */
 export const EffectiveSettingSchema: GenMessage<EffectiveSetting> = /*@__PURE__*/
-  messageDesc(file_sandbox, 20);
+  messageDesc(file_sandbox, 21);
 
 /**
  * Complete effective sandbox configuration delivered to a supervisor. Fields
@@ -1107,7 +1177,7 @@ export type SandboxConfigSnapshot = Message<"openshell.sandbox.v1.SandboxConfigS
  * Use `create(SandboxConfigSnapshotSchema)` to create a new message.
  */
 export const SandboxConfigSnapshotSchema: GenMessage<SandboxConfigSnapshot> = /*@__PURE__*/
-  messageDesc(file_sandbox, 21);
+  messageDesc(file_sandbox, 22);
 
 /**
  * Response containing effective sandbox settings and policy, projected from
@@ -1257,7 +1327,7 @@ export type GetSandboxConfigResponse = Message<"openshell.sandbox.v1.GetSandboxC
  * Use `create(GetSandboxConfigResponseSchema)` to create a new message.
  */
 export const GetSandboxConfigResponseSchema: GenMessage<GetSandboxConfigResponse> = /*@__PURE__*/
-  messageDesc(file_sandbox, 22);
+  messageDesc(file_sandbox, 23);
 
 /**
  * Gateway-declared service installed by a supervisor; this does not grant
@@ -1306,7 +1376,7 @@ export type SandboxServiceRoute = Message<"openshell.sandbox.v1.SandboxServiceRo
  * Use `create(SandboxServiceRouteSchema)` to create a new message.
  */
 export const SandboxServiceRouteSchema: GenMessage<SandboxServiceRoute> = /*@__PURE__*/
-  messageDesc(file_sandbox, 23);
+  messageDesc(file_sandbox, 24);
 
 /**
  * Connection details for one operator-registered supervisor middleware service.
@@ -1395,7 +1465,7 @@ export type SupervisorMiddlewareService = Message<"openshell.sandbox.v1.Supervis
  * Use `create(SupervisorMiddlewareServiceSchema)` to create a new message.
  */
 export const SupervisorMiddlewareServiceSchema: GenMessage<SupervisorMiddlewareService> = /*@__PURE__*/
-  messageDesc(file_sandbox, 24);
+  messageDesc(file_sandbox, 25);
 
 /**
  * TLS handling for a network endpoint.

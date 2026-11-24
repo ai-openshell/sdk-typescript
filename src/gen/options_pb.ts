@@ -15,7 +15,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file options.proto.
  */
 export const file_options: GenFile = /*@__PURE__*/
-  fileDesc("Cg1vcHRpb25zLnByb3RvEhRvcGVuc2hlbGwub3B0aW9ucy52MSJiChFBdXRob3JpemF0aW9uUnVsZRIRCglhdXRoX21vZGUYASABKAkSFgoOd29ya3NwYWNlX3JvbGUYAiABKAkSEwoLZ2xvYmFsX3JvbGUYAyABKAkSDQoFc2NvcGUYBCABKAk6bwoNYXV0aG9yaXphdGlvbhIeLmdvb2dsZS5wcm90b2J1Zi5NZXRob2RPcHRpb25zGNCGAyABKAsyJy5vcGVuc2hlbGwub3B0aW9ucy52MS5BdXRob3JpemF0aW9uUnVsZVINYXV0aG9yaXphdGlvbjo3CgZzZWNyZXQSHS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGNGGAyABKAhSBnNlY3JldGIGcHJvdG8z", [file_google_protobuf_descriptor]);
+  fileDesc("Cg1vcHRpb25zLnByb3RvEhRvcGVuc2hlbGwub3B0aW9ucy52MSJxChFBdXRob3JpemF0aW9uUnVsZRIRCglhdXRoX21vZGUYASABKAkSFgoOd29ya3NwYWNlX3JvbGUYAiABKAkSEwoLZ2xvYmFsX3JvbGUYAyABKAkSDQoFc2NvcGUYBCABKAkSDQoFYXVkaXQYBSABKAk6bwoNYXV0aG9yaXphdGlvbhIeLmdvb2dsZS5wcm90b2J1Zi5NZXRob2RPcHRpb25zGNCGAyABKAsyJy5vcGVuc2hlbGwub3B0aW9ucy52MS5BdXRob3JpemF0aW9uUnVsZVINYXV0aG9yaXphdGlvbjo3CgZzZWNyZXQSHS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGNGGAyABKAhSBnNlY3JldGIGcHJvdG8z", [file_google_protobuf_descriptor]);
 
 /**
  * Per-method authorization rule. Consumed at runtime by the gateway's
@@ -55,6 +55,16 @@ export type AuthorizationRule = Message<"openshell.options.v1.AuthorizationRule"
    * @generated from field: string scope = 4;
    */
   scope: string;
+
+  /**
+   * API Activity the gateway records for each call by a user or operator:
+   * "create", "update", "delete", "other", or "read". A method with a
+   * "*:write" scope must declare one of the first four; "read" marks a read
+   * that returns secret values.
+   *
+   * @generated from field: string audit = 5;
+   */
+  audit: string;
 };
 
 /**
