@@ -12,11 +12,6 @@
 
 Use the TypeScript SDK to manage [OpenShell](https://github.com/ai-openshell/openshell) sandboxes from Node.js applications and automation. Create sandboxes, run and stream commands, forward ports, and manage templates, policy, and provider credentials through the gateway.
 
-> [!WARNING]
-> **Do not run `npm install @ai-openshell/sdk` yet.** The first release of this package will be published on
-> Tuesday, November 24, 2026, so the install command fails until then. Until the release, consume the SDK from
-> the [OpenShell core repository](https://github.com/ai-openshell/openshell/tree/main/sdk/typescript).
-
 See the [TypeScript SDK documentation](https://docs.nvidia.com/openshell/latest/sdk/typescript) for connection options, authentication, and the raw client.
 
 ## Installation
@@ -359,7 +354,7 @@ The SDK ships primitives, not the CLI's terminal experience. Some things are int
 
 Use SDK and gateway versions from the same OpenShell release when possible. SDK releases follow core releases: SDK `X.Y.Z` is built from core `vX.Y.Z`. The raw types and RPC descriptors are generated from that release's protobuf definitions; curated methods remain compatible while those RPC contracts remain compatible.
 
-The generated bindings currently target core `v0.1.9`, pinned by `OPENSHELL_CORE_REF` in `mise.toml`.
+The generated bindings currently target core `v0.1.10`, pinned by `OPENSHELL_CORE_REF` in `mise.toml`.
 
 ## Contributing
 
