@@ -367,7 +367,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, tasks, commit conventions, and
 
 ## Repository history
 
-The SDK moved from NVIDIA/OpenShell to this repository, which also renamed the package. Core published it to GitHub Packages as `@nvidia/openshell-sdk`; earlier releases remain available there. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and remove the `@nvidia:registry=https://npm.pkg.github.com` line and its token from `.npmrc` if nothing else uses them. The entry points (`.` and `./raw`) and the API are unchanged.
+The SDK moved from NVIDIA/OpenShell to this repository, which also renamed the package. Core published it to GitHub Packages as `@nvidia/openshell-sdk`; earlier releases remain available there. To upgrade, replace `@nvidia/openshell-sdk` with `@ai-openshell/sdk` in `package.json` and in imports, and remove the `@nvidia:registry=https://npm.pkg.github.com` line and its token from `.npmrc` if nothing else uses them. The entry points (`.` and `./raw`) and the API are unchanged. `@nvidia/openshell-sdk@0.1.10`, the last release under the old name, contains no SDK code: it depends on `@ai-openshell/sdk@^0.1.0` and re-exports it, so projects on the old name keep receiving 0.1.x releases without code changes. Releases from 0.2.0 on are published only as `@ai-openshell/sdk`.
 
 History through core `v0.1.9` was imported from NVIDIA/OpenShell. The extraction and verification scripts are preserved under [hack/migration on the migration/v0.1.9 branch](https://github.com/ai-openshell/sdk-typescript/tree/migration/v0.1.9/hack/migration).
 
