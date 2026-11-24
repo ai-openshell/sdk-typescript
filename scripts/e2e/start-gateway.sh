@@ -13,8 +13,10 @@
 # the same version instead of :latest. --default-image replaces the image that
 # sandboxes run when they don't name one (core's default is plain Ubuntu); the
 # gateway pulls it only when it isn't present locally. Then registers the
-# gateway as "e2e" for the SDK in $XDG_CONFIG_HOME/openshell. Waits up to 15
-# minutes for the gateway image of a fresh tag to be published.
+# gateway as "e2e" for the SDK in $XDG_CONFIG_HOME/openshell. Takes the image
+# registry from core's compose file at the tag (core moved its images from
+# ghcr.io/nvidia/openshell to quay.io/ai-openshell in v0.1.10-pre.5). Waits up
+# to 15 minutes for the gateway image of a fresh tag to be published.
 #
 # Needs docker with the compose plugin and a host path /var/lib/openshell
 # (core's compose file bind-mounts it at the same path). Meant for throwaway
@@ -24,7 +26,6 @@
 set -euo pipefail
 
 core_repo=${CORE_REPO:-NVIDIA/OpenShell}
-registry=ghcr.io/nvidia/openshell
 name=e2e
 port=8080
 health_port=8081
@@ -48,28 +49,31 @@ semver=${tag#v}
 mkdir -p "$state"
 echo "$tag" >"$state/core-version"
 
-# Core pushes images after tagging; a proposal can be faster than that.
-manifest_exists() {
-  local token
-  token=$(curl -fsS "https://ghcr.io/token?scope=repository:nvidia/openshell/gateway:pull" | jq -r .token) || return 1
-  curl -fsS -o /dev/null -H "Authorization: Bearer $token" \
-    -H 'Accept: application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.manifest.v1+json' \
-    "https://ghcr.io/v2/nvidia/openshell/gateway/manifests/$semver"
-}
-for i in $(seq 1 15); do
-  manifest_exists && break
-  if [ "$i" -eq 15 ]; then
-    echo "ERROR: gateway image for $semver not published yet, re-run later" >&2
-    exit 1
-  fi
-  echo "Waiting for $registry/gateway:$semver ($i/15) ..."
-  sleep 60
-done
-
 # Core's deployment files at the tag.
 base="https://raw.githubusercontent.com/$core_repo/$tag/deploy/docker"
 curl -fsSL "$base/docker-compose.yml" -o "$state/docker-compose.yml"
 curl -fsSL "$base/gateway.toml" -o "$state/gateway.toml"
+
+# The registry core publishes this version's images to, from the gateway
+# service's image (for example quay.io/ai-openshell/gateway:${IMAGE_TAG:-latest}).
+gateway_image=$(sed -nE 's#^ *image: *&gateway-image +([^ :]+/gateway):.*#\1#p' "$state/docker-compose.yml")
+[ -n "$gateway_image" ] || {
+  echo "ERROR: could not find the gateway image in core's docker-compose.yml at $tag" >&2
+  exit 1
+}
+registry=${gateway_image%/gateway}
+
+# Core pushes images after tagging; a proposal can be faster than that.
+for i in $(seq 1 15); do
+  docker manifest inspect "$gateway_image:$semver" >/dev/null 2>&1 && break
+  if [ "$i" -eq 15 ]; then
+    echo "ERROR: $gateway_image:$semver not published yet, re-run later" >&2
+    exit 1
+  fi
+  echo "Waiting for $gateway_image:$semver ($i/15) ..."
+  sleep 60
+done
+
 sed -i.bak \
   -e "s#\"$registry/supervisor:latest\"#\"$registry/supervisor:$semver\"#" \
   -e "s#\"$registry/sandbox:latest\"#\"$registry/sandbox:$semver\"#" \

@@ -25,7 +25,7 @@ set -euo pipefail
 
 core_repo=${CORE_REPO:-NVIDIA/OpenShell}
 sdk_repo=${SDK_REPO:-ai-openshell/sdk-typescript}
-image=ghcr.io/nvidia/openshell/gateway
+image=quay.io/ai-openshell/gateway
 diff_cap=400
 
 tag=
