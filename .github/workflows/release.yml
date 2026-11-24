@@ -146,7 +146,7 @@ jobs:
             echo "@ai-openshell/sdk@${version} is on npm already."
             exit 0
           fi
-          npm publish release/*.tgz --access public --ignore-scripts
+          npm publish ./release/*.tgz --access public --ignore-scripts
 
   # Publishing comes last, so the release never shows without its files. If
   # this job fails after npm accepted the upload, re-run only the failed jobs.
